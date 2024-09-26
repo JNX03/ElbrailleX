@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EiBraille</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'exercise.css' %}">
+    <link rel="shortcut icon" type="x-icon" href="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FLessonpage%2FLogo.svg?alt=media&token=15969fac-1d91-4154-805e-ab2bb7494147">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioEnabled = false;
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('enable-audio').click();
+        });
+
+        function enableAudio() {
+            audioEnabled = true;
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function startRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        audioChunks = [];
+                        const formData = new FormData();
+                        formData.append('audio_file', audioBlob, 'recording.wav');
+                        sendRequest(formData);
+                    };
+                    setTimeout(() => {
+                        if (mediaRecorder && mediaRecorder.state === "recording") {
+                            mediaRecorder.stop();
+                        }
+                    }, 3000); // Stop recording after 3 seconds
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Could not access the microphone.',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                });
+        }
+
+        function sendRequest(formData) {
+            const csrftoken = getCookie('csrftoken');
+
+            $.ajax({
+                url: "{% url 'alphachar' %}",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                success: function(data) {
+                    Swal.fire({
+                        icon: data.message === "Correct!" ? 'success' : 'error',
+                        title: data.message,
+                        showConfirmButton: false,
+                        timer: 3000
+                    }).then((result) => {
+                        if (data.message === "Correct!") {
+                            window.location.href = "{% url 'practice' n_next %}";
+                        }
+                    });
+                },
+                error: function(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'There was an error processing your request.',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                }
+            });
+        }
+
+        function prepareAudio(text) {
+            if (!audioEnabled) return;
+            fetch(`/exercise/speak/?text=${encodeURIComponent(text)}&lang=th`)
+                .then(response => response.blob())
+                .then(blob => {
+                    const audio = document.getElementById('tts-audio');
+                    audio.src = URL.createObjectURL(blob);
+                    audio.play();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        let isMuted = false;
+
+document.addEventListener("DOMContentLoaded", function() {
+    var iframe = document.getElementById("background-music");
+    var muteButton = document.getElementById("mute-button");
+
+    iframe.src = iframe.src;
+
+    muteButton.addEventListener("click", function() {
+        if (isMuted) {
+            // Unmute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
+            muteButton.textContent = 'Mute';
+        } else {
+            // Mute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
+            muteButton.textContent = 'Unmute';
+        }
+        isMuted = !isMuted;
+    });
+});
+    </script>
+</head>
+<body>
+    <center>
+        <div id="background-music-container" style="display: none;">
+            <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        <button id="mute-button" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">Mute</button>
+        
+        <div class="All">
+            <span class="Letter">{{ letter }}</span>
+            <div class="braille">
+                <div class="toprow">            
+                    <div class="B1" style="background-color: {{ braille_pattern.0|yesno:'black,#D19C1A' }};"></div>
+                    <div class="B2" style="background-color: {{ braille_pattern.1|yesno:'black,#D19C1A' }};"></div>
+                </div>
+                <div class="midrow">
+                    <div class="B3" style="background-color: {{ braille_pattern.2|yesno:'black,#D19C1A' }};"></div>
+                    <div class="B4" style="background-color: {{ braille_pattern.3|yesno:'black,#D19C1A' }};"></div>
+                </div>
+                <div class="bottomrow">
+                    <div class="B5" style="background-color: {{ braille_pattern.4|yesno:'black,#D19C1A' }};"></div>
+                    <div class="B6" style="background-color: {{ braille_pattern.5|yesno:'black,#D19C1A' }};"></div>
+                </div>
+            </div>
+        </div>
+    </center>
+    <center>
+        <div class="under">
+            <a href="{% url 'home' %}"><button name="Home" class="home" onmouseover="prepareAudio('Home')" onfocus="prepareAudio('Home')" tabindex="0"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fhome.svg?alt=media&token=583f399c-ad48-4684-af35-292be8bc3d62" alt="Home"></button></a>
+            <button name="Sound" class="sound" onclick="startRecording()" onmouseover="prepareAudio('Sound')" onfocus="prepareAudio('Sound')" tabindex="0"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2FMC.svg?alt=media&token=3a1b22aa-1ca6-4b82-bfd1-306c8c95af31" alt="Sound"></button>
+            <a href="{% url 'practice' n_next %}"><button name="next" class="next" onmouseover="prepareAudio('Next')" onfocus="prepareAudio('Next')" tabindex="0"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fnext.svg?alt=media&token=3ca463e5-5715-48df-ad47-07950a814e9a" alt="Next"></button></a>
+        </div>
+    </center>
+
+    <audio id="tts-audio" style="display:none;"></audio>
+    <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
+</body>
+</html>

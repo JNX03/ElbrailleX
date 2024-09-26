@@ -1,0 +1,131 @@
+body {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2Fbackground%20basic.png?alt=media&token=70525a1b-33e2-42b5-a576-5ea07351cecc');
+    background-size: cover;
+    background-position: center;
+    background-position-y: 0vh;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow-x: hidden;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    max-height: 1920px;
+    
+}
+
+.button{
+    background-color: #E3E6D2;
+    width: 21vw;
+    height: 45vh;
+    border: none;
+    border-radius: 12%;
+    margin: 1%;
+    margin-top: 3%;
+    margin-right: 3%;
+    box-shadow: 9px 9px 9px 9px rgba(0, 0, 0, 0.25); /* Adjusted parameters */
+    overflow: hidden; /* Ensure content overflow is hidden */
+    display: flex; /* Ensures children elements respect flex properties */
+    justify-content: center; /* Centers children horizontally */
+    align-items: center; /* Centers children vertically */
+    max-width: 550px !important;
+    max-height: 630px !important;
+    transition: transform  ease-in-out ;
+
+}
+button img {
+    width: 110%; 
+    height: 110%;
+    object-fit: cover; /* Maintains aspect ratio and covers the button */
+    position: center; /* Allows absolute positioning within the button */
+    top: 0;
+    left: 0;
+}
+button:focus , button:hover {
+    transition: transform 0.3s ease;
+    transform: translateY(-10%);
+    background-color: gray;
+
+}
+
+button:focus{
+    outline: none;
+}
+
+button:active {
+    transform: translateY(20px);
+    filter: grayscale(100%);
+    filter: contrast(65%);
+}
+
+.All{
+    display: flex;
+    margin-left: 1.3vw;
+
+}
+
+.AtoZ, .vowel, .Num, .NumT {
+    width: 21vw;
+    height: 45vh;
+    display: block;
+    box-shadow: rgb(200, 206, 208);
+    margin-right: 20px;
+    border: none;
+    border-radius: 12%;
+}
+
+.AtoZ img{
+    width: 30vw;
+    height: 50vh;
+    margin-left: -4vw;
+
+}
+
+.vowel img{
+    width: 18vw;
+    height: 43vh;
+    margin-top: 20%;
+
+}
+
+.Num img{
+    width: 35vw;
+    height: 50vh;
+    margin-left: -7vw;
+
+}
+
+.NumT img{
+    width: 30vw;
+    height: 50vh;
+    margin-left: -7vw;
+
+}
+
+.Next , .Home{
+    width: auto;
+    height: auto;
+    background-color: rgb(87,178,241);
+    border-radius: 50%;
+    border: none;
+    box-shadow: none;
+}
+
+.Next{
+    margin: 2.5vh;
+}
+
+.Next img{
+    width: 70PX;
+    margin: 20px;
+}
+
+.Home img{
+    width: 70PX;
+    margin: 20px;
+}
+.interactcontent{
+    position: fixed;
+    bottom: 0;
+    left: 40%;
+}

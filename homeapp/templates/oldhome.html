@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EiBraille</title>
+    <link rel="shortcut icon" type="x-icon" href="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2FDOG.png?alt=media&token=81baa2e3-03ba-414c-b731-f8dbe1c04ee3">
+    <audio id="HoverSound" src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FFocusSound.mp3?alt=media&token=efeabba3-7570-4917-bdb2-4f5fd1e44b91"></audio>
+    <audio id="ClickSound" src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FPressSound.mp3?alt=media&token=95b05453-7be1-4d07-8290-04c9a9aaf1e2"></audio>
+    <audio id="AppearSound" src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FAppearSound.mp3?alt=media&token=da71aef6-9236-4747-8865-994bbdee86ca"></audio>
+  </head>
+  <body>
+    <div id="background-music-container" style="display: none;">
+      <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+  <button id="mute-button" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">Mute</button>
+  
+    <div class="menubutton">
+      <button class="Lesson" onclick="LessonOnClick('Lesson')" onfocus="prepareAudio('บทเรียน')"></button>
+      <button class="Exercise" onclick="LessonOnClick('Exercise')" onfocus="prepareAudio('แบบฝึก')"></button>
+      <a href="../game/"><button class="Game" onclick="prepareAudio('Game')" onfocus="prepareAudio('Game')"></button></a> <!--To change Back Change in onclick to "LessonOnClick()"-->
+    </div>
+    <div class="lessonbutton">
+      <a href="basicbraille/"><button class="basiclearninglesson" onfocus="prepareAudio('mixword')"></button></a>
+      <button class="mixword" onfocus="prepareAudio('mixword')"></button>
+    </div>
+    <div class="exercisebutton">
+      <a href="../exercise/practice/1"><button class="spelling" onfocus="prepareAudio('mixword')"></button></a>
+      <a href="../exercise/writing/"><button class="sorting" onfocus="prepareAudio('mixword')"></button></a>
+      <a href="../exercise/sort/"><button class="writing" onfocus="prepareAudio('mixword')"></button></a>
+    </div>
+    <div class="gamebutton">
+      <a href="../game/"><button class="basicgame" onfocus="prepareAudio('mixword')"></button></a>
+      <button class="mixwordgame" onfocus="prepareAudio('mixword')"></button>
+    </div>
+    <div class="LessonLine">
+      <img id="LessonLine" draggable="false" src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FLineLesson.svg?alt=media&token=08436265-6f56-43b8-adb7-02037ec92ed2" style="width: 100%; height: 100%;">
+  </body>
+  <audio id="tts-audio" style="display:none;"></audio>
+  <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
+  <style>
+    body {
+      background-image: url('https://firebasestorage.googleapis.com/v0/b/eibraillex-81280.appspot.com/o/Asset%2FSlide%2016_9%20-%20115.png?alt=media&token=53a4ce4c-87bc-4b99-89ec-e9f97c0b6092');
+      background-size: cover;
+      background-position: center;
+      background-position-y: 0vh;
+      background-repeat: no-repeat;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-height: 1920px;
+    }
+
+    button:focus {
+      outline: none !important;
+    }
+
+    button:focus,
+    button:hover {
+      filter: grayscale(100%);
+      filter: contrast(50%);
+    }
+
+    .menubutton {
+      display: flex;
+      position: fixed;
+      z-index: 1;
+    }
+
+    .menubutton button {
+      margin: 1.25vh;
+    }
+
+    .Lesson {
+      width: 30vw;
+      height: 67vh;
+      background-image: url("https://firebasestorage.googleapis.com/v0/b/eibraillex-81280.appspot.com/o/Asset%2FGroup%20275.png?alt=media&token=39406dd5-ab96-44cb-b829-ce2d24a95d7b");
+      background-size: 90%;
+      background-position: center;
+      background-color: rgba(0, 0, 0, 0);
+      background-repeat: no-repeat;
+      border: none;
+    }
+
+    .Exercise {
+      width: 30vw;
+      height: 67vh;
+      background-image: url("https://firebasestorage.googleapis.com/v0/b/eibraillex-81280.appspot.com/o/Asset%2FGroup%20276.png?alt=media&token=73871fff-6f21-4ad7-ba24-025dd829105b");
+      background-size: 90%;
+      background-position: center;
+      background-color: rgba(0, 0, 0, 0);
+      background-repeat: no-repeat;
+      border: none;
+    }
+
+    .Game {
+      width: 30vw;
+      height: 67vh;
+      background-image: url("https://firebasestorage.googleapis.com/v0/b/eibraillex-81280.appspot.com/o/Asset%2FGroup%20277.png?alt=media&token=3330fc06-20db-469d-b511-7e10612b4643");
+      background-size: 90%;
+      background-position: center;
+      background-color: rgba(0, 0, 0, 0);
+      background-repeat: no-repeat;
+      border: none;
+    }
+
+    button:active {
+      filter: grayscale(50%);
+      filter: contrast(85%);
+    }
+
+    .LessonLine {
+      opacity: 0;
+      height: 100vh;
+      position: fixed;
+      bottom: -90%;
+    }
+
+    .lessonbutton {
+      display: none;
+      position: fixed;
+      z-index: 2;
+      left: 20vw;
+    }
+
+    .basiclearninglesson,
+    .mixword {
+      width: 60vw;
+      height: 34vh;
+      background-size: 100%;
+      background-position: center;
+      background-color: rgba(0, 0, 0, 0);
+      background-repeat: no-repeat;
+      border: none;
+      /* transform: translateX(-100%); */
+    }
+
+    .basiclearninglesson {
+      background-image: url("https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2Fbasicbrailllelearningnewmenu.svg?alt=media&token=7112c7fe-35f9-43ef-8774-a780f424c2ea");
+      margin-bottom: 10vh;
+    }
+
+    .mixword {
+      background-image: url("file:///C:/Users/User/Downloads/mixword.svg");
+    }
+
+    .exercisebutton {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      margin-top: 5vw;
+    }
+
+    .exercisebutton button {
+      margin: 1.25vh;
+    }
+
+    .spelling {
+      width: 30vw;
+      height: 67vh;
+      background-image: url("https://firebasestorage.googleapis.com/v0/b/eibraillex-81280.appspot.com/o/Asset%2FGroup%20284.png?alt=media&token=4b6c8228-50cc-43d9-82a9-7b0c919ad7d2");
+      background-size: 80%;
+      background-position: center;
+      background-color: rgba(0, 0, 0, 0);
+      background-repeat: no-repeat;
+      border: none;
+    }
+
+    .sorting {
+      width: 30vw;
+      height: 67vh;
+      background-image: url("https://firebasestorage.googleapis.com/v0/b/eibraillex-81280.appspot.com/o/Asset%2FGroup%20285.png?alt=media&token=f475815a-ced4-4624-bc74-58e71491d355");
+      background-size: 80%;
+      background-position: center;
+      background-color: rgba(0, 0, 0, 0);
+      background-repeat: no-repeat;
+      border: none;
+    }
+
+    .writing {
+      width: 30vw;
+      height: 67vh;
+      background-image: url("https://firebasestorage.googleapis.com/v0/b/eibraillex-81280.appspot.com/o/Asset%2FGroup%20286.png?alt=media&token=37b59841-81db-456e-87b0-4ada51558ca2");
+      background-size: 80%;
+      background-position: center;
+      background-color: rgba(0, 0, 0, 0);
+      background-repeat: no-repeat;
+      border: none;
+    }
+
+    .gamebutton {
+      display: none;
+      position: fixed;
+      z-index: 2;
+      left: 20vw;
+    }
+
+    .basicgame,
+    .mixwordgame {
+      width: 60vw;
+      height: 31vh;
+      background-size: 100%;
+      background-position: center;
+      background-color: rgba(0, 0, 0, 0);
+      background-repeat: no-repeat;
+      border: none;
+      /* transform: translateX(-100%); */
+    }
+
+    .basicgame {
+      background-image: url("https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2Fbasicgame.svg?alt=media&token=2b1f5f34-bdce-4d4b-a334-eaac6fa1d316");
+      margin-bottom: 10vh;
+    }
+
+    .mixwordgame {
+      background-image: url("https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2Fmixwordgame.svg?alt=media&token=512e7340-1d39-4034-a658-214c19477ea5");
+    }
+  </style>
+  <style>
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes UpButton {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(-200%);
+      }
+    }
+
+    @keyframes UpLine {
+      from {
+        bottom: -90%;
+      }
+
+      to {
+        bottom: 0;
+      }
+    }
+
+    @keyframes Lessonuncrop {
+      from {
+        clip-path: inset(0 85% 100% 0);
+      }
+
+      to {
+        clip-path: inset(0 85% 0% 0);
+      }
+    }
+
+    @keyframes Exercisesuncrop {
+      0% {
+        clip-path: inset(0 50% 100% 50%);
+      }
+
+      50% {
+        clip-path: inset(0 10% 50% 10%);
+      }
+
+      100% {
+        clip-path: inset(0 15% 0% 15%);
+      }
+    }
+
+    @keyframes Gameuncrop {
+      from {
+        clip-path: inset(0 0 100% 85%);
+      }
+
+      to {
+        clip-path: inset(0 0 0% 85%);
+      }
+    }
+
+    @keyframes lessonintro {
+      0% {
+        opacity: 0%;
+      }
+
+      50% {
+        opacity: 70%;
+      }
+
+      100% {
+        opacity: 100%;
+      }
+    }
+
+    @keyframes gameintro {
+      0% {
+        transform: translateX(25%);
+        opacity: 0%;
+      }
+
+      50% {
+        transform: translateX(0);
+        opacity: 70%;
+      }
+
+      100% {
+        opacity: 100%;
+      }
+    }
+  </style>
+  <script>
+    let audioEnabled = false;
+    let isMuted = false;
+
+document.addEventListener("DOMContentLoaded", function() {
+    var iframe = document.getElementById("background-music");
+    var muteButton = document.getElementById("mute-button");
+
+    // Initially load the iframe with muted background music
+    iframe.src += "&mute=1";
+
+    muteButton.addEventListener("click", function() {
+        if (isMuted) {
+            // Unmute the video
+            iframe.src = "https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}";
+            muteButton.textContent = "Mute";
+        } else {
+            // Mute the video
+            iframe.src = "https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1";
+            muteButton.textContent = "Unmute";
+        }
+        isMuted = !isMuted;
+    });
+});
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.getElementById('enable-audio').click();
+    });
+
+    function enableAudio() {
+        audioEnabled = true;
+    }
+
+    function prepareAudio(text) {
+        if (!audioEnabled) return;
+        fetch(`/exercise/speak/?text=${encodeURIComponent(text)}&lang=th`)
+            .then(response => response.blob())
+            .then(blob => {
+                const audio = document.getElementById('tts-audio');
+                audio.src = URL.createObjectURL(blob);
+                audio.play();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    function LessonOnClick(ButtonName) {
+      // console.log("you click",ButtonName);
+      const Name = ['Lesson', 'Exercise', 'Game']
+      const button = document.getElementsByClassName(ButtonName)[0];
+      const line = document.getElementsByClassName("LessonLine")[0];
+      let time1 = 1250;
+      let time2 = 2250;
+      if (ButtonName == 'Exercise') {
+        time1 = 2000;
+        time2 = 3000;
+      }
+      const animationDetails = {
+        Lesson: {
+          animation: "Lessonuncrop 2s forwards linear",
+          clipPath: "inset(0 85% 0 0)"
+        },
+        Exercise: {
+          animation: "Exercisesuncrop 3s forwards linear",
+          clipPath: "inset(0% 15% 0 15%)"
+        },
+        Game: {
+          animation: "Gameuncrop 2s forwards linear",
+          clipPath: "inset(0 0 0 85%)"
+        }
+      };
+      Name.forEach(id => {
+        if (id !== ButtonName) {
+          const otherbutton = document.getElementsByClassName(id)[0];
+          otherbutton.style.animation = "fadeOut 0.5s forwards";
+          otherbutton.disabled = true;
+        }
+      })
+      if (line !== undefined) {
+        line.style.animation = animationDetails[ButtonName].animation;
+        line.style.opacity = "100%";
+      }
+      setTimeout(() => {
+        button.style.animation = "UpButton 1.35s forwards linear";
+        button.disabled = true;
+        line.style.animation = "UpLine 1s forwards linear";
+        line.style.clipPath = animationDetails[ButtonName].clipPath;
+      }, time1);
+      setTimeout(() => {
+        if (ButtonName == 'Lesson') {
+          document.getElementsByClassName("lessonbutton")[0].style.display = "block";
+          document.getElementsByClassName("basiclearninglesson")[0].style.animation = "lessonintro 1s forwards";
+          document.getElementsByClassName("mixword")[0].style.animation = "lessonintro 1s forwards";
+        }
+        if (ButtonName == 'Exercise') {
+          document.getElementsByClassName("exercisebutton")[0].style.display = "flex";
+          document.getElementsByClassName("spelling")[0].style.animation = "fadeOut 1s forwards alternate-reverse";
+          document.getElementsByClassName("sorting")[0].style.animation = "fadeOut 1s forwards alternate-reverse";
+          document.getElementsByClassName("writing")[0].style.animation = "fadeOut 1s forwards alternate-reverse";
+        }
+        if (ButtonName == 'Game') {
+          document.getElementsByClassName("gamebutton")[0].style.display = "block";
+          document.getElementsByClassName("basicgame")[0].style.animation = "gameintro 1s forwards";
+          document.getElementsByClassName("mixwordgame")[0].style.animation = "gameintro 1s forwards";
+        }
+      }, time2);
+    }
+  </script>
+</html>

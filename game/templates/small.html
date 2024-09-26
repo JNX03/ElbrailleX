@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EiBraille</title>
+    <link rel="shortcut icon" type="x-icon" href="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2FDOG.png?alt=media&token=81baa2e3-03ba-414c-b731-f8dbe1c04ee3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div style id="background-music-container" style="display: none;">
+        <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <button id="mute-button" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">Mute</button>
+    <audio id="tts-audio" style="display:none;"></audio>
+    
+        <!-- <button class="PageClamp" style="width: 255vw;"> 
+        
+        </button> -->
+
+        <h1 class="overlay">ตัวอักษรพิมพ์เล็ก</h1>
+        <!--tabindex="0" onmouseover="prepareAudio('เรียนตัวอักษรพิมพ์ใหญ่')" onfocus="prepareAudio('เรียน ตัวอักษรพิมพ์ใหญ่')"-->
+        <div class="LessonButton">
+            <a href="../../learning/smallalphabet/1"><button class="BigButton" id="a-jLes" tabindex="0" onmouseover="prepareAudio('a-j')" onfocus="prepareAudio('a-j')" >
+                <h1 style="font-family: 'Noto Sans Thai Looped', sans-serif; font-size: 5vw; margin-top: -0.25vw; color: rgba(36, 84, 151, 1);">a-j</h1>
+            </button>
+            <a href="../../learning/smallalphabet/2"><button class="SmallButton" id="a-jSound" tabindex="0" onmouseover="prepareAudio('ฝึกออกเสีย')" onfocus="prepareAudio('ฝึกออกเสีย')">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FSoundGame.svg?alt=media&token=2e67f472-db6f-402d-b3b6-ce88a8be3664" style="width: 80%;">
+            </button>
+            <a href="../../exercise/random"><button class="SmallButton" id="a-jDoc" tabindex="0" onmouseover="prepareAudio('แบบฝึกจดจำลำดับ')" onfocus="prepareAudio('แบบฝึกจดจำลำดับ')">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FDocGame.svg?alt=media&token=258381da-1b98-4e8f-86ee-453b1088f215" style="width: 80%;">
+            </button>
+            <a href="../../learning/smallalphabet/4"><button class="BigButton" id="k-tLes" tabindex="0" onmouseover="prepareAudio('k-t')" onfocus="prepareAudio('k-t')"
+                <h1 style="font-family: 'Noto Sans Thai Looped', sans-serif; font-size: 5vw; margin-top: -0.25vw; color: rgba(36, 84, 151, 1);">k-t</h1>
+            </button>
+            <a href="../../learning/smallalphabet/5"><button class="SmallButton" id="k-tSound " tabindex="0" onmouseover="prepareAudio('เรียนตัวอักษรพิมพ์ใหญ่')" onfocus="prepareAudio('เรียน ตัวอักษรพิมพ์ใหญ่')">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FSoundGame.svg?alt=media&token=2e67f472-db6f-402d-b3b6-ce88a8be3664" style="width: 80%;">
+            </button>
+            <a href="../../learning/smallalphabet/6"><button class="SmallButton" id="k-tDoc" onfocus="focused()">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FDocGame.svg?alt=media&token=258381da-1b98-4e8f-86ee-453b1088f215" style="width: 80%;">
+            </button>
+            <a href="../../learning/smallalphabet/7"><button class="BigButton" id="u-zLes">
+                <h1 style="font-family: 'Noto Sans Thai Looped', sans-serif; font-size: 5vw; margin-top: -0.25vw; color: rgba(36, 84, 151, 1);">u-z</h1>
+            </button>
+            <a href="../../learning/smallalphabet/8"><button class="SmallButton" id="u-zSound">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FSoundGame.svg?alt=media&token=2e67f472-db6f-402d-b3b6-ce88a8be3664" style="width: 80%;">
+            </button>
+            <a href="../../learning/smallalphabet/9"><button class="SmallButton" id="u-zDoc">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FDocGame.svg?alt=media&token=258381da-1b98-4e8f-86ee-453b1088f215" style="width: 80%;">
+            </button>
+            <a href="../../learning/smallalphabet/10"><button class="BigButton" id="WLes" onfocus="focused1()">
+                <h1 style="font-family: 'Noto Sans Thai Looped', sans-serif; font-size: 5vw; margin-top: -0.25vw; color: rgba(36, 84, 151, 1);">W</h1>
+            </button></a>
+            <a href="../../learning/smallalphabet/11"><button class="SmallButton" id="WSound">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FSoundGame.svg?alt=media&token=2e67f472-db6f-402d-b3b6-ce88a8be3664" style="width: 80%;">
+            </button></a>
+            <a href="../../learning/smallalphabet/12"><button class="SmallButton" id="WDoc">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FDocGame.svg?alt=media&token=258381da-1b98-4e8f-86ee-453b1088f215" style="width: 80%;">
+            </button></a>
+            <a href="../../learning/smallalphabet/13"><button class="BigButton" id="a-zLes">
+                <h1 style="font-family: 'Noto Sans Thai Looped', sans-serif; font-size: 5vw; margin-top: -0.25vw; color: rgba(36, 84, 151, 1);">a-z</h1>
+            </button></a>
+            <a href="../../learning/smallalphabet/14"><button class="SmallButton" id="a-zSound">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FSoundGame.svg?alt=media&token=2e67f472-db6f-402d-b3b6-ce88a8be3664" style="width: 80%;">
+            </button></a>
+            <a href="../../learning/smallalphabet/15"><button class="SmallButton" id="a-zDoc" >
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FDocGame.svg?alt=media&token=258381da-1b98-4e8f-86ee-453b1088f215" style="width: 80%;">
+            </button></a>
+            <a href="../../learning/smallalphabet/16"><button class="BigButton" id="Test">
+                <h1 style="font-family: 'Noto Sans Thai Looped', sans-serif; font-size: 3vw; margin-top: -0.25vw; color: rgba(36, 84, 151, 1);">Test</h1>
+            </button></a>
+        </div>
+
+        <div class="overlaybuttom">
+            <a href="/"><button class="back">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fback.svg?alt=media&token=ef43e623-62bd-4b82-af23-55fea5f6456a" alt="Back">
+            </button>
+            </a>
+            <button class="stat">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FStat.svg?alt=media&token=bacba788-bc58-448c-9c8c-560b63be676d" alt="Stat">
+            </button></a>
+
+            <div class="bottombutton">
+                <a href=""><button class="Touch">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2Fonefinger.svg?alt=media&token=39f1780b-3bef-4732-a451-cd6f0c55a161" alt="Touch">
+                </button></a>
+            
+                <button class="speak">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2Fspeak.svg?alt=media&token=4bf3dfc2-48ce-4922-9526-76f9dd983ea9" alt="Home">
+                </button>
+            
+                <button class="sound" >
+                    <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fsound.svg?alt=media&token=22315f51-f229-4847-b39f-1718881104c0" alt="Sound">
+                </button>
+            </div>
+        </div>
+</body>
+</html>
+
+<style>
+
+    body{
+        background-image: url(https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FBGGame.svg?alt=media&token=326d5239-2cd3-4a28-87aa-526999df368b);
+        background-size: 260vw;
+        background-repeat: no-repeat;
+        scroll-behavior: smooth;
+        overflow: hidden;
+    }
+
+    .BigButton{
+        position: absolute;
+        background-image: url(https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FButtonGame.svg?alt=media&token=7faa1e33-32de-4d92-aefb-7a7620096732);
+        width: 13vw;
+        height: 26vh;
+        background-size: 100%;
+        background-position: center;
+        background-color: transparent;
+        border: none;
+        background-repeat: no-repeat;
+    }
+
+    .SmallButton{
+        position: absolute;
+        background-image: url(https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FButtonGame.svg?alt=media&token=7faa1e33-32de-4d92-aefb-7a7620096732);
+        width: 7vw;
+        height: 14vh;
+        background-size: 100%;
+        background-position: center;
+        background-color: transparent;
+        border: none;
+        background-repeat: no-repeat;
+    }
+
+    /* .BigButton:focus , .SmallButton:focus{
+        outline: none;
+        filter: grayscale(20%);
+    } */
+
+    #a-jLes{
+        left: 14vw;
+        bottom: 45vh;
+    }
+
+    #a-jSound{
+        left: 39.25vw;
+        bottom: 59.25vh;
+    }
+
+    #a-jDoc{
+        left: 56.25vw;
+        bottom: 43vh;
+    }
+
+    #k-tLes{
+        left: 70.25vw;
+        bottom: 20.5vh;
+    }
+
+    #k-tSound{
+        left: 81.75vw;
+        bottom: 76.25vh;
+    }
+
+    #k-tDoc{
+        left: 96vw;
+        bottom: 53.25vh;
+    }
+
+    #u-zLes{
+        left: 114.5vw;
+        bottom: 53.25vh;
+    }
+
+    #u-zSound{
+        left: 129vw;
+        bottom: 18.5vh;
+    }
+
+    #u-zDoc{
+        left: 143.5vw;
+        bottom: 40.25vh;
+    }
+    #WLes{
+        left: 155.75vw;
+        bottom: 55.75vh;
+    }
+
+    #WSound{
+        left: 177.5vw;
+        bottom: 62.5vh;
+    }
+
+    #WDoc{
+        left: 189.5vw;
+        bottom: 40.5vh;
+    }
+    #a-zLes{
+        left: 199.5vw;
+        bottom: 13.75vh;
+    }
+
+    #a-zSound{
+        left: 211.75vw;
+        bottom: 50vh;
+    }
+
+    #a-zDoc{
+        left: 223.25vw;
+        bottom: 58.75vh;
+    }
+    #Test{
+        left: 235.25vw;
+        bottom: 51.75vh;
+    }
+
+    @media (device-width: 100vw) and (device-height: 100vh) {
+        #a-jLes{
+        left: 14vw;
+        bottom: 50vh;
+    }
+
+    #a-jSound{
+        left: 39.25vw;
+        bottom: 63.25vh;
+    }
+
+    #a-jDoc{
+        left: 56.25vw;
+        bottom: 49.25vh;
+    }
+
+    #k-tLes{
+        left: 70.25vw;
+        bottom: 28.5vh;
+    }
+
+    #k-tSound{
+        left: 81.75vw;
+        bottom: 78.25vh;
+    }
+
+    #k-tDoc{
+        left: 96vw;
+        bottom: 58.25vh;
+    }
+
+    #u-zLes{
+        left: 114.5vw;
+        bottom: 57.25vh;
+    }
+
+    #u-zSound{
+        left: 129vw;
+        bottom: 27.5vh;
+    }
+
+    #u-zDoc{
+        left: 143.5vw;
+        bottom: 46.25vh;
+    }
+    #WLes{
+        left: 155.75vw;
+        bottom: 59.25vh;
+    }
+
+    #WSound{
+        left: 177.5vw;
+        bottom: 65.75vh;
+    }
+
+    #WDoc{
+        left: 189.5vw;
+        bottom: 46.75vh;
+    }
+    #a-zLes{
+        left: 199.5vw;
+        bottom: 22.75vh;
+    }
+
+    #a-zSound{
+        left: 211.75vw;
+        bottom: 55vh;
+    }
+
+    #a-zDoc{
+        left: 223.25vw;
+        bottom: 63.75vh;
+    }
+    #Test{
+        left: 235.25vw;
+        bottom: 56.75vh;
+    }
+}
+
+
+    .overlaybuttom{
+        position: fixed;
+    }
+
+    .overlaybuttom button{
+        background-color: #edc76a;
+        border-radius: 50%;
+        border: none;
+    }
+    
+    .back{
+        background-color: white !important;
+    }
+
+    .stat{
+        background-color: #bca2f0 !important;
+    }
+
+    .back img{
+        filter: invert(70%);
+    }
+
+    .sound img{
+        filter: invert(70%);
+    }
+
+    .overlaybuttom button img{
+        width: 5vw;
+        margin: 1vw;
+    }
+
+    .back{
+        margin-left: 2vw;
+    }
+
+    .back , .stat{
+        margin-top: 2vw;
+    }
+
+    .Touch , .speak , .sound{
+        left: 37.5%;
+        bottom: 5vh;
+    }
+
+    .bottombutton{
+        position: fixed;
+        /* margin-left: 38vw !important; */
+        left: 38vw;
+        bottom: 2vw;
+    }
+
+    .overlay{
+        font-family: 'Noto Sans Thai Looped',sans-serif; 
+        font-size: 2vw; 
+        color: #454545;
+        position: fixed;
+        right: 5vw;
+        top: -2vw;
+        background-image: url(https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2Fbraillebasiclearningggg.svg?alt=media&token=00f11655-1125-428b-b0cd-14e3f29b5447);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 85%;
+        padding: 5vw;
+        padding-right: 9vw;
+        z-index: 2;
+    }
+
+</style>
+
+<script>
+        let isMuted = false;
+        
+        let audioEnabled = false;
+        function enableAudio() {
+            audioEnabled = true;
+        }
+
+        function prepareAudio(text) {
+            if (!audioEnabled) return;
+            fetch(`/exercise/speak/?text=${encodeURIComponent(text)}&lang=th`)
+                .then(response => response.blob())
+                .then(blob => {
+                    const audio = document.getElementById('tts-audio');
+                    audio.src = URL.createObjectURL(blob);
+                    audio.play();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    var iframe = document.getElementById("background-music");
+    var muteButton = document.getElementById("mute-button");
+
+    iframe.src = iframe.src;
+
+    muteButton.addEventListener("click", function() {
+        if (isMuted) {
+            // Unmute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
+            muteButton.textContent = 'Mute';
+        } else {
+            // Mute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
+            muteButton.textContent = 'Unmute';
+        }
+        isMuted = !isMuted;
+    });
+});
+    function focused(){
+        window.scrollBy({
+        left: 1080, // Adjust the value as needed
+        behavior: 'smooth'
+    });
+    }
+    function focused1(){
+        window.scrollBy({
+        left: 1800, // Adjust the value as needed
+        behavior: 'smooth'
+    });
+}
+</script>

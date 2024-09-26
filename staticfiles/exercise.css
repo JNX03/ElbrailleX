@@ -1,0 +1,126 @@
+body {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2FBG.svg?alt=media&token=b7cdb17a-3b4e-46ba-8e03-7e7148ac69c4');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    display:block; 
+    justify-content: center; 
+    align-items: center;
+}
+.All{
+    position: relative;
+    height: 60vh;
+    max-height: auto;
+    width: 1200px;
+    max-width: auto;
+    border-radius: 25px;
+    top: 100px;
+    overflow: hidden;
+}
+
+.span{
+    display: flex;
+}
+.braille{
+    display: inline-block;
+    position: fixed;
+    bottom: 30vh;
+    right: 60vh;
+    
+}
+
+
+.Letter{
+    font-family: "Noto Sans Thai Looped", sans-serif;
+    font-size: 40vw;
+    font-weight: bold;
+    color: rgb(35, 35, 35);
+    position: fixed;
+    bottom:5vh;
+    right: 50vw;
+}
+
+.B1 , .B2 , .B3 , .B4 , .B5 , .B6{
+    background-color: #D19C1A;
+    width: 2vw;
+    margin: 40PX;
+    min-width: 30px !important;
+    min-height:30px !important;
+    height: 4vh;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    
+}
+
+.midrow{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.B1 , .B2 , .B3 , .B4 , .B5 , .B6{
+    background-color: rgb(35, 35, 35);
+    width: 4.69VW;
+    height: 4.69VW;
+    margin: 10px;
+    margin-bottom: 20px;
+    right: 1vw;
+    margin-left: 25px;
+}
+
+.home, .next {
+    background-color: #57B2F1;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 0px;
+    margin-top: 20vh; 
+    margin-left: 5vw;
+    margin-right: 5vw;
+    size: fixed;
+
+
+}
+.sound {
+    background-color: #2070AD;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 15px;
+    border-color: #81AECD;
+    size: fixed;
+
+}
+.sound img{
+    width: 10vw;
+    display: block;
+}
+
+.under {
+    margin-left: 1vw;
+}
+
+button:hover {
+    transition: transform 0.3s ease;
+    transform: translateY(-10%);
+    background-color: gray;
+
+}
+
+button:active {
+   
+    transform: translateY(20px);
+} 
+
+
+button:active {
+    filter: grayscale(100%);
+    filter: contrast(65%);
+}
+
+.home img , .next img{
+    margin: 0.5vw;
+}

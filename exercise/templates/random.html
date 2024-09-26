@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EiBraille</title>
+    <link rel="shortcut icon" type="x-icon" href="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2FDOG.png?alt=media&token=81baa2e3-03ba-414c-b731-f8dbe1c04ee3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        let audioEnabled = false;
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('enable-audio').click();
+        });
+
+        function enableAudio() {
+            audioEnabled = true;
+        }
+
+        function prepareAudio(text) {
+            if (!audioEnabled) return;
+            fetch(`/exercise/speak/?text=${encodeURIComponent(text)}&lang=th`)
+                .then(response => response.blob())
+                .then(blob => {
+                    const audio = document.getElementById('tts-audio');
+                    audio.src = URL.createObjectURL(blob);
+                    audio.play();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const alphabet = "abcdefghijklmnopqrstuvwxyz".split('');
+            const startIndex = Math.floor(Math.random() * (alphabet.length - 5));
+            const selectedLetters = alphabet.slice(startIndex, startIndex + 5);
+            document.getElementById('btn1').innerText = selectedLetters[0];
+            document.getElementById('btn2').innerText = selectedLetters[1];
+            document.getElementById('btn3').innerText = '?';
+            document.getElementById('btn4').innerText = selectedLetters[3];
+            document.getElementById('btn5').innerText = selectedLetters[4];
+
+            // Add event listeners for TTS
+            document.getElementById('btn1').addEventListener('mouseover', () => prepareAudio(selectedLetters[0]));
+            document.getElementById('btn2').addEventListener('mouseover', () => prepareAudio(selectedLetters[1]));
+            document.getElementById('btn3').addEventListener('mouseover', () => prepareAudio('question mark'));
+            document.getElementById('btn4').addEventListener('mouseover', () => prepareAudio(selectedLetters[3]));
+            document.getElementById('btn5').addEventListener('mouseover', () => prepareAudio(selectedLetters[4]));
+
+            document.getElementById('btn1').addEventListener('focus', () => prepareAudio(selectedLetters[0]));
+            document.getElementById('btn2').addEventListener('focus', () => prepareAudio(selectedLetters[1]));
+            document.getElementById('btn3').addEventListener('focus', () => prepareAudio('question mark'));
+            document.getElementById('btn4').addEventListener('focus', () => prepareAudio(selectedLetters[3]));
+            document.getElementById('btn5').addEventListener('focus', () => prepareAudio(selectedLetters[4]));
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'T' || event.key === 't') {
+                window.location.href = '../sortcorrect/';
+            } else if (event.key === 'F' || event.key === 'f') {
+                window.location.href = '../sorttryagain/';
+            }
+        });
+        let isMuted = false;
+
+document.addEventListener("DOMContentLoaded", function() {
+    var iframe = document.getElementById("background-music");
+    var muteButton = document.getElementById("mute-button");
+
+    iframe.src = iframe.src;
+
+    muteButton.addEventListener("click", function() {
+        if (isMuted) {
+            // Unmute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
+            muteButton.textContent = 'Mute';
+        } else {
+            // Mute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
+            muteButton.textContent = 'Unmute';
+        }
+        isMuted = !isMuted;
+    });
+});
+    </script>
+</head>
+<body>
+    <div id="background-music-container" style="display: none;">
+        <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <button id="mute-button" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">Mute</button>
+    
+    <div id="B" class="All">
+        <center>
+            <button id="btn1" class="b1">a</button>
+            <button id="btn2" class="b2">b</button>
+            <button id="btn3" class="b3">?</button>
+            <button id="btn4" class="b4">c</button>
+            <button id="btn5" class="b5">d</button>
+        </center>
+        <center>
+        <div class="under">
+            <button name="Home" class="home"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fhome.svg?alt=media&token=583f399c-ad48-4684-af35-292be8bc3d62" alt="Home"></button>
+            <button name="Sound" class="sound"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2FMC.svg?alt=media&token=3a1b22aa-1ca6-4b82-bfd1-306c8c95af31" alt="Sound"></button>    
+            <button name="next" class="next"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fnext.svg?alt=media&token=3ca463e5-5715-48df-ad47-07950a814e9a" alt="Next"></button>
+        </div>
+        </center>
+    </div>
+    <audio id="tts-audio" style="display:none;"></audio>
+    <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
+</body>
+</html>
+
+<style>
+    body {
+        background-image: url('https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2FBoard%20BG.svg?alt=media&token=54dfb000-41c8-4dd1-ac56-808b9e912eef');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow-x: hidden;
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+    }
+    .All {
+        margin-right: 1vw;
+    }
+
+    .b1, .b2, .b3, .b4, .b5 {
+        max-height: 20% !important;
+        margin-top: 25vh;
+        height: 35vh;
+        width: 15vw;
+        margin-left: 1vw;
+        font-family: "Noto Sans Thai Looped", sans-serif;
+        font-weight: bold;
+        font-size: 10vw;
+        border: none;
+        border-radius: 15%;
+    }
+
+    .b1, .b2, .b4, .b5 {
+        background-color: #57B2F1;
+        color: white;
+        box-shadow: 0 25px #2D90D5;
+        max-height: 50%;
+    }
+
+    .b3 {
+        background-color: #F8FAED;
+        color: black;
+        box-shadow: 0 25px rgb(198, 191, 191);
+    }
+
+    .home, .next {
+        background-color: #57B2F1;
+        border-radius: 50%;
+        border-style: solid;
+        border-width: 0px;
+        margin-top: 15vh; 
+    }
+
+    .home img, .next img {
+        width: 10vh;
+        margin: 2.5vh;
+    }
+
+    .sound {
+        background-color: #285890;
+        border-radius: 50%;
+        border-style: solid;
+        border-width: 0.5vw;
+        border-color: white;
+        margin: 3vw;
+    }
+
+    .sound img {
+        width: 7vw;
+        margin: 1vw;
+    }
+
+    .under {
+        margin-left: 1vw;
+    }
+
+    .home:hover, .sound:hover, .next:hover {
+        transition: transform 0.3s ease;
+        transform: translateY(-10%);
+        background-color: gray;
+    }
+
+    .home:active, .sound:active, .next:active {
+        transform: translateY(20px);
+    } 
+
+    .home:active, .sound:active, .next:active {
+        filter: grayscale(100%);
+        filter: contrast(65%);
+    }
+</style>

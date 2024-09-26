@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EiBraille</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'smallalphabetlearning.css' %}">
+    <link rel="shortcut icon" type="x-icon" href="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FLessonpage%2FLogo.svg?alt=media&token=15969fac-1d91-4154-805e-ab2bb7494147">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+            let isMuted = false;
+
+document.addEventListener("DOMContentLoaded", function() {
+    var iframe = document.getElementById("background-music");
+    var muteButton = document.getElementById("mute-button");
+
+    iframe.src = iframe.src;
+
+    muteButton.addEventListener("click", function() {
+        if (isMuted) {
+            // Unmute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
+            muteButton.textContent = 'Mute';
+        } else {
+            // Mute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
+            muteButton.textContent = 'Unmute';
+        }
+        isMuted = !isMuted;
+    });
+});
+        let audioEnabled = false;
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('enable-audio').click();
+        });
+
+        function enableAudio() {
+            audioEnabled = true;
+        }
+
+        function prepareAudio(text) {
+            if (!audioEnabled) return;
+            fetch(`/exercise/speak/?text=${encodeURIComponent(text)}&lang=th`)
+                .then(response => response.blob())
+                .then(blob => {
+                    const audio = document.getElementById('tts-audio');
+                    audio.src = URL.createObjectURL(blob);
+                    audio.play();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        document.addEventListener('keypress', function(event) {
+            if (event.key.toLowerCase() === 't') {
+                Swal.fire({
+                    title: 'Correct!',
+                    text: 'You pressed the correct key.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    backdrop: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+            } else if (event.key.toLowerCase() === 'f') {
+                Swal.fire({
+                    title: 'Incorrect',
+                    text: 'You pressed the incorrect key.',
+                    icon: 'error',
+                    confirmButtonText: 'Try Again',
+                    backdrop: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <center>
+        <div class="All">
+            <span style="z-index: -20;" class="Letter" tabindex="0" onmouseover="prepareAudio('นี้คือตัว z ลองกดปุ่มไมค์เพื่อออกเสียง พร้อมสัมผัสปุ่ม Cell')" onfocus="prepareAudio('นี้คือตัว z ลองกดปุ่มไมค์เพื่อออกเสียง พร้อมสัมผัสปุ่ม Cell')">z</span>
+            <div class="braille">
+                <div class="toprow">            
+                    <div class="B1" style="background-color: black;"></div>
+                    <div class="B2" style="background-color: #D19C1A;"></div>
+                </div>
+                <div class="midrow">
+                    <div class="B3" style="background-color: black;"></div>
+                    <div class="B4" style="background-color: #D19C1A;"></div>
+                </div>
+                <div class="bottomrow">
+                    <div class="B5" style="background-color: black;"></div>
+                    <div class="B6" style="background-color: #D19C1A;"></div>
+                </div>
+            </div>
+        </div>
+    </center>
+    <center>
+        <div class="under">
+            <a href="{% url 'basicbraille' %}"><button name="Home" class="home" onmouseover="prepareAudio('กลับหน้าเริ่มบทเรียน')" onfocus="prepareAudio('กลับหน้าเริ่มบทเรียน')" tabindex="0"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fhome.svg?alt=media&token=583f399c-ad48-4684-af35-292be8bc3d62" alt="Home"></button></a>
+            <button name="Sound" class="sound" onmouseover="prepareAudio('ปุ่ม ไมค์')" onfocus="prepareAudio(' ปุ่ม ไมค์')" tabindex="0"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2FMC.svg?alt=media&token=3a1b22aa-1ca6-4b82-bfd1-306c8c95af31" alt="Sound"></button>
+            <a href="{% url 'smallalphabetlearning' 2 %}"><button name="next" class="next" onmouseover="prepareAudio('ตัวต่อไป')" onfocus="prepareAudio('ตัวต่อไป')" tabindex="0"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fnext.svg?alt=media&token=3ca463e5-5715-48df-ad47-07950a814e9a" alt="Next"></button></a>
+        </div>
+    </center>
+
+    <audio id="tts-audio" style="display:none;"></audio>
+    <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
+</body>
+</html>

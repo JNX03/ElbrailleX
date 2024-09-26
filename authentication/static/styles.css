@@ -1,0 +1,48 @@
+
+@font-face {
+    font-family: 'Prompt';
+    src: url('https://fonts.gstatic.com/s/prompt/v8/-W__XJnvUD7dzB2KdNodVkQ.woff2') format('woff2');
+}
+  
+body {
+    font-family: 'Prompt', sans-serif;
+    background-color: #232323;
+}
+
+.custom-font {
+    font-family: 'Prompt', sans-serif;
+}
+
+.video-container {
+    position: relative;
+    width: 30%; /* ลดความกว้างของคอนเทนเนอร์เหลือ 40% */
+    max-width: 320px; /* ลดความกว้างสูงสุดเหลือ 320px */
+    height: auto; /* กำหนดความสูงให้ปรับตามอัตราส่วน */
+    margin: 0 auto; /* จัดวางให้อยู่กึ่งกลางตามแนวนอน */
+    padding: 0;
+    overflow: hidden; 
+    border-radius: 20px; /* กำหนดขอบมุมเป็นแบบมลมล */
+}
+
+.video-element {
+    position: absolute;
+    top: 100px;
+    left: 12.5%;
+    width: 75%;
+    height: 75%; /*กำหนดความสูงให้เต็มคอนเทนเนอร์*/
+    object-fit: cover; /* ปรับวิดีโอให้ครอบคลุมพื้นที่ทั้งหมดโดยไม่เสียอัตราส่วน */
+    border-radius: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
