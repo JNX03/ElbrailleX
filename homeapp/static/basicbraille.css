@@ -1,5 +1,5 @@
 body {
-    background-image: url('../EbrailleAssets/uploads/Background.png');
+    background-image: url('../EbrailleAssets/uploads/Slide_16_9_-_117.png');
     background-size: cover;
     background-position: center;
     background-position-y: 0vh;
@@ -15,7 +15,7 @@ body {
 }
 
 .button{
-    background-color: #E3E6D2;
+    background-color: transparent;
     width: 21vw;
     height: 45vh;
     border: none;
@@ -23,11 +23,11 @@ body {
     margin: 1%;
     margin-top: 3%;
     margin-right: 3%;
-    box-shadow: 9px 9px 9px 9px rgba(0, 0, 0, 0.25); /* Adjusted parameters */
-    overflow: hidden; /* Ensure content overflow is hidden */
-    display: flex; /* Ensures children elements respect flex properties */
-    justify-content: center; /* Centers children horizontally */
-    align-items: center; /* Centers children vertically */
+    box-shadow: 9px 9px 9px 9px rgba(0, 0, 0, 0.25); 
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     max-width: 550px !important;
     max-height: 630px !important;
     transition: transform  ease-in-out ;
@@ -36,15 +36,15 @@ body {
 button img {
     width: 110%; 
     height: 110%;
-    object-fit: cover; /* Maintains aspect ratio and covers the button */
-    position: center; /* Allows absolute positioning within the button */
+    object-fit: cover;
+    position: center;
     top: 0;
     left: 0;
 }
 button:hover {
     transition: transform 0.3s ease;
     transform: translateY(-10%);
-    background-color: gray;
+    background-color: transparent;
 
 }
 
@@ -67,20 +67,18 @@ button:active {
 }
 
 .Big, .Small, .Num{
-    width: 21vw;
-    height: 45vh;
+    background-color: transparent;
     display: block;
-    box-shadow: rgb(200, 206, 208);
+    box-shadow: transparent;
     margin-right: 5vh;
     border:none;
     border-radius: 12%;
 }
 
 .Big img{
-    width: 16.1vw;
+    width: 20vw;
     height: auto;
-    margin-top: 8.7vh;
-    margin-left: 2vw;
+    margin-top: 7%;
 }
 
 .Small img{
@@ -90,20 +88,11 @@ button:active {
 
 }
 .Num img{
-    width: 17.6vw;
+    width: 20vw;
     height: auto;
-    margin-top: 1.7vw;
-    margin-left: 2.5vh;
+    margin-top: 7%;
 
 }
-
-
-
-
-
-
-
-
 
 .Next , .Home{
     width: auto;
