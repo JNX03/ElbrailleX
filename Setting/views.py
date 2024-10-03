@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import FileUploadForm
+from .models import FileUpload
 
 def tt(request):
     return render(request, 'TT.html')
