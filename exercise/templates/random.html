@@ -9,6 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
+
+    function refreshPage(){
+        window.location.reload();
+    } 
+
         let audioEnabled = false;
 
         document.addEventListener('DOMContentLoaded', (event) => {
@@ -59,7 +64,7 @@
 
         document.addEventListener('keydown', (event) => {
             if (event.key === 'T' || event.key === 't') {
-                window.location.href = '../sortcorrect/';
+                window.location.href = '../sortcoorect/';
             } else if (event.key === 'F' || event.key === 'f') {
                 window.location.href = '../sorttryagain/';
             }
@@ -103,9 +108,9 @@ document.addEventListener("DOMContentLoaded", function() {
         </center>
         <center>
         <div class="under">
-            <button name="Home" class="home"><img src="../../EbrailleAssets/uploads/Group_294.png" alt="Home"></button>
-            <button name="Sound" class="sound"><img src="../../EbrailleAssets/uploads/Group_287.png" alt="Sound"></button>    
-            <button name="next" class="next"><img src="../../EbrailleAssets/uploads/Forward_b.png" alt="Next"></button>
+            <a href="/home/"><button name="Home" class="home"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fhome.svg?alt=media&token=583f399c-ad48-4684-af35-292be8bc3d62" alt="Home"></button></a>
+            <button name="Sound" class="sound"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2FMC.svg?alt=media&token=3a1b22aa-1ca6-4b82-bfd1-306c8c95af31" alt="Sound"></button>    
+            <button name="next" class="next"><img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fnext.svg?alt=media&token=3ca463e5-5715-48df-ad47-07950a814e9a" alt="Next"></button onClick="refreshPage()">
         </div>
         </center>
     </div>

@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic.base import TemplateView  # new
+from GPB import views
+from TGPB import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,11 +29,11 @@ urlpatterns = [
     path('exercise/', include('exercise.urls')),
     path('game/', include('game.urls')),
     path('Setting/', include('Setting.urls')),
-    path('teacher/', include('teacher.urls')),
-    path(
-        "robots.txt",
-    TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
-    ),
+    #path('home/GPB', views.index, name='index'),
+    #path('home/GPB/success/', views.success, name='success'),
+    path('home/GPB/', include('GPB.urls')),
+    path('home/TGPB/', include('TGPB.urls')),
+    path('home/translate/', include('braille_translator.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Random Letter Game</title>
     <style>
         body {
-            background-image: url('../EbrailleAssets/uploads/Background.png');
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2Fbackground%20basic.png?alt=media&token=70525a1b-33e2-42b5-a576-5ea07351cecc');
             background-size: cover;
             background-position: center;
-            background-position-y: 0vh;
             margin: 0;
             padding: 0;
             height: 100vh;
@@ -16,10 +17,38 @@
             flex-direction: column;
             justify-content: center; 
             align-items: center;
-            max-height: 1920px;
         }
 
-        .letter-display-box {
+        .back{
+            position: fixed;
+            background-color: #edc76a!important;
+            border-radius: 50%!important;
+            border: none!important;
+        }
+        .overlay{
+            position: fixed;
+            top: 3vh;
+        }
+        .overlay h1{
+            font-size:4vw;
+            color: #4e4e4e;
+            background-color: #e5dcd0;
+            padding-bottom: 1.5vh;
+            padding-left: 6vw;
+            padding-right: 6vw;
+            padding-top: 0vh;
+            border-radius: 2.5%;
+        }
+    
+        .back{
+            left: 6vw;
+            top: 8vh;
+        }
+        .back img{
+            filter: invert(90%);
+        }
+
+        .letter-display-box, .outer-string {
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 15px;
             padding: 20px 40px;
@@ -27,6 +56,9 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .letter-display {
@@ -34,34 +66,16 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             margin: 0;
-            cursor: pointer; /* Added cursor pointer */
+            cursor: pointer;
         }
 
-        .hidden-string {
-            display: none;
-        }
         .string {
-            font-size: 0.5em;
+            font-size: 2em;
             font-family: 'Courier New', Courier, monospace;
-            background-color: rgba(255, 255, 255, 1);
-            border-radius: 15px;
-            padding: 50px 70px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
+            color: white;
+            margin: 0;
         }
-        .outer-string {
-            font-size: 5em;
-            font-family: 'Courier New', Courier, monospace;
-            background-color: rgba(255, 0, 0, 0);
-            border-radius: 15px;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+
         .sound-container {
             position: absolute;
             bottom: 20px;
@@ -73,13 +87,17 @@
         .sound {
             background-color: transparent;
             border: none;
-            outline: none;
             cursor: pointer;
         }
 
         .sound img {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
+            transition: transform 0.3s;
+        }
+
+        .sound img:hover {
+            transform: scale(1.1);
         }
 
         .recording-indicator {
@@ -89,30 +107,64 @@
             background-color: red;
             color: white;
             padding: 10px;
-            border-radius: 20%;
+            border-radius: 50%;
             display: none;
         }
 
+        #mute-button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #mute-button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        @media (max-width: 768px) {
+            .letter-display {
+                font-size: 5em;
+            }
+
+            .string {
+                font-size: 1.5em;
+            }
+
+            .sound img {
+                width: 60px;
+                height: 60px;
+            }
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <button id="mute-button" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">Mute</button>
+    <div class="overlay">
+        <a href="javascript:history.back()"><button class="back">
+            <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fback.svg?alt=media&token=ef43e623-62bd-4b82-af23-55fea5f6456a" alt="Back">
+        </button></a>
+    </div>
+    <button id="mute-button">Mute</button>
     <audio id="tts-audio" style="display:none;"></audio>
-    <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
     <div class="letter-display-box">
         <h1 class="letter-display" tabindex="0" onclick="handleLetterClick()">{{ letter }}</h1>
     </div>
-    <div st class="outer-string">
+    <div class="outer-string">
         <div class="string">{{ generated_string }}</div>
     </div>
     <div class="sound-container">
-        <button name="Sound" class="sound">
-            <img src="../../EbrailleAssets/uploads/Group_287.png" alt="Sound">
+        <button name="Sound" class="sound" aria-label="Sound">
+            <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2FMC.svg?alt=media&token=3a1b22aa-1ca6-4b82-bfd1-306c8c95af31" alt="Sound Icon">
         </button>
     </div>
     <div class="recording-indicator" id="recording-indicator">Recording...</div>
-    <audio id="tts-audio" style="display:none;"></audio>
     <script>
         let audioEnabled = false;
         const targetLetter = '{{ letter }}';
@@ -153,7 +205,6 @@
                 });
             } else if (letter === 'F') {
                 prepareAudio("ลองอีกครั้งนะ")
-
                 Swal.fire({
                     title: 'Incorrect!',
                     text: 'You clicked the wrong letter.',
@@ -167,7 +218,7 @@
             if ('webkitSpeechRecognition' in window) {
                 const recognition = new webkitSpeechRecognition();
                 recognition.lang = "th-TH";
-                recognition.interimResults = true;  // Allow interim results
+                recognition.interimResults = true;
                 recognition.onresult = function(event) {
                     let speechResult = "";
                     for (let i = 0; i < event.results.length; i++) {
@@ -226,27 +277,27 @@
                 }
             });
         });
+
         let isMuted = false;
 
-document.addEventListener("DOMContentLoaded", function() {
-    var iframe = document.getElementById("background-music");
-    var muteButton = document.getElementById("mute-button");
+        document.addEventListener("DOMContentLoaded", function() {
+            var iframe = document.getElementById("background-music");
+            var muteButton = document.getElementById("mute-button");
 
-    iframe.src = iframe.src;
+            iframe.src = iframe.src;
 
-    muteButton.addEventListener("click", function() {
-        if (isMuted) {
-            // Unmute the video
-            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
-            muteButton.textContent = 'Mute';
-        } else {
-            // Mute the video
-            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
-            muteButton.textContent = 'Unmute';
-        }
-        isMuted = !isMuted;
-    });
-});
+            muteButton.addEventListener("click", function() {
+                if (isMuted) {
+                    iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
+                    muteButton.textContent = 'Mute';
+                } else {
+                    iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
+                    muteButton.textContent = 'Unmute';
+                }
+                isMuted = !isMuted;
+            });
+        });
+
         document.addEventListener('keypress', function(event) {
             if (event.key.toLowerCase() === 't') {
                 Swal.fire({

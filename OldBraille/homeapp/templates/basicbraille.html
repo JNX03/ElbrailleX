@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EiBraille</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'basicbraille.css' %}">
+    <link rel="shortcut icon" type="x-icon" href="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FLessonpage%2FLogo.svg?alt=media&token=15969fac-1d91-4154-805e-ab2bb7494147">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <center>
+        <div class="All">
+            <a href="../../game/lower/">
+                <button name="Small" id="Small" class="Small" tabindex="0" onmouseover="prepareAudio('เรียนตัวอักษรพิมพ์เล็ก')" onfocus="prepareAudio('เรียน ตัวอักษรพิมพ์เล็ก')">
+                    <center><span></span></center>
+                    <img draggable="false" class="Small" src="../../EbrailleAssets/uploads/Group_290.png" alt="Lesson">
+                </button>
+            </a>
+
+            <a href="../../game/upper/">
+                <button name="Big" id="Big" class="Big" tabindex="0" onmouseover="prepareAudio('เรียนตัวอักษรพิมพ์ใหญ่')" onfocus="prepareAudio('เรียน ตัวอักษรพิมพ์ใหญ่')">
+                    <center><span></span></center>
+                    <img draggable="false" class="Big" src="../../EbrailleAssets/uploads/Group_291.png" alt="Lesson">
+                </button>
+            </a>
+
+            <a href="../../game/number/">
+                <button name="Num" id="Num" class="Num" tabindex="0" onmouseover="prepareAudio('เรียนตัวเลข')" onfocus="prepareAudio('เรียน ตัวเลข')">
+                    <center><span></span></center>
+                    <img draggable="false" class="Num" src="../../EbrailleAssets/uploads/Group_292.png" alt="Lesson">
+                </button>
+            </a>
+        </div>
+    </center>
+
+    <div class="interactcontent">
+        <a href="{% url 'homescreen' %}">
+            <button class="Next" tabindex="0"  onmouseover="prepareAudio('Back')" onfocus="prepareAudio('Back')">
+                <img draggable="false" src="../../EbrailleAssets/uploads/Group_293.png" alt="Bookmark">
+            </button>
+        </a>
+        <a href="{% url 'homescreen' %}">
+            <button class="Next" tabindex="0"  onmouseover="prepareAudio('Home')" onfocus="prepareAudio('Back')">
+                <img draggable="false" src="../../EbrailleAssets/uploads/Group_294.png" alt="Bookmark">
+            </button>
+        </a>
+    </div>
+
+    <audio id="tts-audio" style="display:none;"></audio>
+    <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
+
+    <script>
+        let audioEnabled = false;
+        let isMuted = false;
+
+document.addEventListener("DOMContentLoaded", function() {
+    var iframe = document.getElementById("background-music");
+    var muteButton = document.getElementById("mute-button");
+
+    iframe.src = iframe.src;
+
+    muteButton.addEventListener("click", function() {
+        if (isMuted) {
+            // Unmute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
+            muteButton.textContent = 'Mute';
+        } else {
+            // Mute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
+            muteButton.textContent = 'Unmute';
+        }
+        isMuted = !isMuted;
+    });
+});
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('enable-audio').click();
+        });
+
+        function enableAudio() {
+            audioEnabled = true;
+        }
+
+        function prepareAudio(text) {
+            if (!audioEnabled) return;
+            fetch(`/exercise/speak/?text=${encodeURIComponent(text)}&lang=th`)
+                .then(response => response.blob())
+                .then(blob => {
+                    const audio = document.getElementById('tts-audio');
+                    audio.src = URL.createObjectURL(blob);
+                    audio.play();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+</html>

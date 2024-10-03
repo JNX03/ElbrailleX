@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Story Search</title>
+    <style>
+        body {
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2F%E0%B8%AA%E0%B8%B8%E0%B9%88%E0%B8%A1%E0%B8%84%E0%B8%B3%20%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99%E0%B8%AB%E0%B8%A5%E0%B8%B1%E0%B8%87.svg?alt=media&token=f476c11e-f624-4b43-af95-cbc59835cb68');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-family: 'Segoe UI', sans-serif;
+            color: #ffffff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+        }
+
+        .mic-button {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .mic-button:hover, .mic-button:focus {
+            background-color: #e0e0e0;
+        }
+
+        .mic-icon {
+            width: 20px;
+            height: 20px;
+            fill: #333;
+        }
+
+        button[type="submit"] {
+            background-color: #004aac;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Braille GPT</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="personality_type" value="INFJ">
+        <label for="story">Search Story:</label>
+        <div class="input-wrapper">
+            <input type="text" id="story" name="story" required>
+            <button type="button" id="micButton" class="mic-button" tabindex="0" aria-label="Activate voice input">
+                <svg class="mic-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.92v1.07c-2.45.26-4.36 2.36-4.36 4.88V23h10.72v-1.13c0-2.52-1.91-4.62-4.36-4.88v-1.07c2.82-.39 5-2.76 5-5.69V7h-2v3.23c0 2.33-1.9 4.23-4.23 4.23S7.54 12.57 7.54 10.23V7h-2v3.23c0 2.93 2.18 5.3 5 5.69z"/>
+                </svg>
+            </button>
+        </div>
+        <button type="submit">Search</button>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SpeechRecognition/0.1.0/SpeechRecognition.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const micButton = document.getElementById('micButton');
+            const storyInput = document.getElementById('story');
+
+            // Check if browser supports speech recognition
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    storyInput.value = transcript;
+                };
+
+                micButton.addEventListener('click', function() {
+                    recognition.start();
+                });
+
+                // Add keyboard support for the mic button
+                micButton.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        recognition.start();
+                    }
+                });
+            } else {
+                micButton.style.display = 'none';
+                console.log('Speech recognition not supported');
+            }
+        });
+    </script>
+</body>
+</html>

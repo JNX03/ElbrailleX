@@ -143,3 +143,6 @@ def sym1(request):
 
 def sym2(request):
     return render(request, "Symbol2.html")
+
+def smal(request):
+    return render(request, "smallalphabetlearning.html")

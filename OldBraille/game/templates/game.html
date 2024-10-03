@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Letter Game</title>
+    <style>
+        body {
+            background-image: url('../EbrailleAssets/uploads/Background.png');
+            background-size: cover;
+            background-position: center;
+            background-position-y: 0vh;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow-x: hidden;
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            max-height: 1920px;
+        }
+
+        .letter-display-box {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .letter-display {
+            font-size: 10em;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0;
+            cursor: pointer; /* Added cursor pointer */
+        }
+
+        .hidden-string {
+            display: none;
+        }
+        .string {
+            font-size: 0.5em;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 15px;
+            padding: 50px 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .outer-string {
+            font-size: 5em;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: rgba(255, 0, 0, 0);
+            border-radius: 15px;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .sound-container {
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .sound {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .sound img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .recording-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border-radius: 20%;
+            display: none;
+        }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <button id="mute-button" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">Mute</button>
+    <audio id="tts-audio" style="display:none;"></audio>
+    <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
+    <div class="letter-display-box">
+        <h1 class="letter-display" tabindex="0" onclick="handleLetterClick()">{{ letter }}</h1>
+    </div>
+    <div st class="outer-string">
+        <div class="string">{{ generated_string }}</div>
+    </div>
+    <div class="sound-container">
+        <button name="Sound" class="sound">
+            <img src="../../EbrailleAssets/uploads/Group_287.png" alt="Sound">
+        </button>
+    </div>
+    <div class="recording-indicator" id="recording-indicator">Recording...</div>
+    <audio id="tts-audio" style="display:none;"></audio>
+    <script>
+        let audioEnabled = false;
+        const targetLetter = '{{ letter }}';
+        const generatedString = '{{ generated_string }}';
+        const positionWords = ["1", "2", "3", "4", "5"];
+        const recordingIndicator = document.getElementById('recording-indicator');
+
+        function enableAndPrepareAudio(text) {
+            audioEnabled = true;
+            prepareAudio(text);
+        }
+
+        function prepareAudio(text) {
+            if (!audioEnabled) return;
+            fetch(`/exercise/speak/?text=${encodeURIComponent(text)}&lang=th`)
+                .then(response => response.blob())
+                .then(blob => {
+                    const audio = document.getElementById('tts-audio');
+                    audio.src = URL.createObjectURL(blob);
+                    audio.play().catch(error => {
+                        console.error('Audio playback failed:', error);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching audio:', error);
+                });
+        }
+
+        function handleLetterClick() {
+            const letter = document.querySelector('.letter-display').textContent;
+            if (letter === 'T') {
+                prepareAudio("เก่งมากๆเลยค่ะ")
+                Swal.fire({
+                    title: 'Correct!',
+                    text: 'You clicked the correct letter!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            } else if (letter === 'F') {
+                prepareAudio("ลองอีกครั้งนะ")
+
+                Swal.fire({
+                    title: 'Incorrect!',
+                    text: 'You clicked the wrong letter.',
+                    icon: 'error',
+                    confirmButtonText: 'Try Again'
+                });
+            }
+        }
+
+        function startRecording() {
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.lang = "th-TH";
+                recognition.interimResults = true;  // Allow interim results
+                recognition.onresult = function(event) {
+                    let speechResult = "";
+                    for (let i = 0; i < event.results.length; i++) {
+                        speechResult += event.results[i][0].transcript.trim() + " ";
+                    }
+
+                    let words = speechResult.split(" ");
+                    let foundWord = words.find(word => positionWords.includes(word));
+
+                    if (foundWord) {
+                        let expectedPosition = generatedString.indexOf(targetLetter) + 1;
+                        let expectedWord = positionWords[expectedPosition - 1];
+
+                        if (foundWord === expectedWord) {
+                            prepareAudio("เก่งมากคับ")
+
+                            Swal.fire({
+                                title: 'ถูกต้อง!',
+                                text: 'คุณพูดถูกต้อง',
+                                icon: 'success',
+                                confirmButtonText: 'ตกลง'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            prepareAudio("ลองอีกครั้งนะ")
+                            Swal.fire({
+                                title: 'ไม่ถูกต้อง',
+                                text: `คุณพูดว่า: "${speechResult}"`,
+                                icon: 'error',
+                                confirmButtonText: 'ลองอีกครั้ง'
+                            });
+                        }
+                    }
+                };
+                recognition.onstart = function() {
+                    recordingIndicator.style.display = 'block';
+                };
+                recognition.onend = function() {
+                    recordingIndicator.style.display = 'none';
+                };
+                recognition.start();
+            } else {
+                alert("เบราว์เซอร์ของคุณไม่รองรับการรู้จำเสียง");
+            }
+        }
+
+        document.querySelector('.sound').addEventListener('click', startRecording);
+
+        document.querySelectorAll('[tabindex="0"]').forEach(element => {
+            element.addEventListener('focus', () => {
+                if (element.classList.contains('sound')) {
+                    enableAndPrepareAudio('Sound');
+                } else {
+                    enableAndPrepareAudio(element.textContent);
+                }
+            });
+        });
+        let isMuted = false;
+
+document.addEventListener("DOMContentLoaded", function() {
+    var iframe = document.getElementById("background-music");
+    var muteButton = document.getElementById("mute-button");
+
+    iframe.src = iframe.src;
+
+    muteButton.addEventListener("click", function() {
+        if (isMuted) {
+            // Unmute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
+            muteButton.textContent = 'Mute';
+        } else {
+            // Mute the video
+            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
+            muteButton.textContent = 'Unmute';
+        }
+        isMuted = !isMuted;
+    });
+});
+        document.addEventListener('keypress', function(event) {
+            if (event.key.toLowerCase() === 't') {
+                Swal.fire({
+                    title: 'Correct!',
+                    text: 'You pressed the correct key.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    backdrop: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+            } else if (event.key.toLowerCase() === 'f') {
+                Swal.fire({
+                    title: 'Incorrect',
+                    text: 'You pressed the incorrect key.',
+                    icon: 'error',
+                    confirmButtonText: 'Try Again',
+                    backdrop: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

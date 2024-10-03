@@ -16,41 +16,40 @@
         </button> -->
 
         <h1 class="overlay">อักษรเบรลล์คณิตศาสตร์ 2</h1>
-        <audio id="tts-audio" style="display:none;"></audio>
-
+        
         <div class="LessonButton">
-            <button onmouseover="prepareAudio('tutorial')" onfocus="prepareAudio('tutorial')" class="BigButton" id="tutorial" ></button>
-            <button onmouseover="prepareAudio('roman')" onfocus="prepareAudio('roman')" class="BigButton" id="roman" ></button>
-            <button onmouseover="prepareAudio('func')" onfocus="prepareAudio('func')" class="BigButton" id="func" ></button>
-            <button onmouseover="prepareAudio('frac')" onfocus="prepareAudio('frac')" class="BigButton" id="frac" onfocus="focused()" ></button>
-            <button onmouseover="prepareAudio('deg')" onfocus="prepareAudio('deg')" class="BigButton" id="deg" ></button>
-            <button onmouseover="prepareAudio('root')" onfocus="prepareAudio('root')" class="BigButton" id="root" ></button>
-            <button onmouseover="prepareAudio('shape')" onfocus="prepareAudio('shape')" class="BigButton" id="shape" ></button>
-            <button onmouseover="prepareAudio('test')" onfocus="prepareAudio('test')" class="BigButton" id="test" >
+            <button class="BigButton" id="tutorial" ></button>
+            <button class="BigButton" id="roman" ></button>
+            <button class="BigButton" id="func" ></button>
+            <button class="BigButton" id="frac" onfocus="focused()" ></button>
+            <button class="BigButton" id="deg" ></button>
+            <button class="BigButton" id="root" ></button>
+            <button class="BigButton" id="shape" ></button>
+            <button class="BigButton" id="test" >
                 <h1 style="font-family: 'Noto Sans Thai Looped', sans-serif; font-size: 5vw; margin-top: -0.25vw; color: rgba(36, 84, 151, 1);">test</h1>
             </button>
         </div>
 
         <div class="overlaybuttom">
-            <button class="back">
-                <img src="../../EbrailleAssets/uploads/Forward_b.png" alt="Back">
-            </button>
+            <a href="javascript:history.back()"><button class="back">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fback.svg?alt=media&token=ef43e623-62bd-4b82-af23-55fea5f6456a" alt="Back">
+            </button></a>
 
             <button class="stat">
-                <img src="../../EbrailleAssets/uploads/Group_252.png" alt="Stat">
+                <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FStat.svg?alt=media&token=bacba788-bc58-448c-9c8c-560b63be676d" alt="Stat">
             </button>
 
             <div class="bottombutton">
                 <button class="Touch">
-                    <img src="../../EbrailleAssets/uploads/Group_295.png" alt="Touch">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2Fonefinger.svg?alt=media&token=39f1780b-3bef-4732-a451-cd6f0c55a161" alt="Touch">
                 </button>
             
                 <button class="speak">
-                    <img src="../../EbrailleAssets/uploads/Group_296.png" alt="Home">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2Fspeak.svg?alt=media&token=4bf3dfc2-48ce-4922-9526-76f9dd983ea9" alt="Home">
                 </button>
             
                 <button class="sound" >
-                    <img src="../../EbrailleAssets/uploads/Group_297.png" alt="Sound">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fsound.svg?alt=media&token=22315f51-f229-4847-b39f-1718881104c0" alt="Sound">
                 </button>
             </div>
         </div>
@@ -244,26 +243,6 @@
 </style>
 
 <script>
-        function enableAndPrepareAudio(text) {
-            audioEnabled = true;
-            prepareAudio(text);
-        }
-
-        function prepareAudio(text) {
-            if (!audioEnabled) return;
-            fetch(`/exercise/speak/?text=${encodeURIComponent(text)}&lang=th`)
-                .then(response => response.blob())
-                .then(blob => {
-                    const audio = document.getElementById('tts-audio');
-                    audio.src = URL.createObjectURL(blob);
-                    audio.play().catch(error => {
-                        console.error('Audio playback failed:', error);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching audio:', error);
-                });
-        }    
     function focused(){
         window.scrollBy({
         left: 1080, // Adjust the value as needed

@@ -98,12 +98,15 @@ def train(request):
 def recognize(request):
     if request.method == 'POST':
         try:
-            # Assuming the audio file is uploaded with the request
             if 'audio' not in request.FILES:
                 return JsonResponse({'error': 'Audio file is required'}, status=400)
 
             audio_file = request.FILES['audio']
-            temp_file = f"/tmp/{audio_file.name}"
+            
+            # Define the temporary directory and file path
+            temp_dir = os.path.join(settings.BASE_DIR, 'temp')
+            os.makedirs(temp_dir, exist_ok=True)
+            temp_file = os.path.join(temp_dir, audio_file.name)
 
             # Save the uploaded audio file to a temporary location
             with open(temp_file, 'wb') as f:
@@ -121,11 +124,13 @@ def recognize(request):
                 logging.error(f"Voice auth script error: {result.stderr}")
                 return JsonResponse({'error': result.stderr}, status=500)
 
-            return JsonResponse({'message': 'Recognition completed successfully', 'result': result.stdout})
+            # On success, return a success message
+            return JsonResponse({'message': 'Recognition completed successfully', 'redirect': '/home/'})
+        
         except Exception as e:
             logging.error(f"Exception during recognition: {str(e)}")
             return JsonResponse({'error': str(e)}, status=500)
-
+    
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt

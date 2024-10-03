@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EiBraille</title>
+    <link rel="shortcut icon" type="x-icon" href="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2FDOG.png?alt=media&token=81baa2e3-03ba-414c-b731-f8dbe1c04ee3">
+    <link href='https://fonts.googleapis.com/css?family=Kanit&subset=thai,latin' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <contain class="contain" style="display: flex; flex-direction: column; align-content: center; justify-content: center; align-items: center;">
+        <center>
+            <button name="text" style="color: transparent; background-color: transparent; border-color: transparent; cursor: default; width: 170vh;" class="text">
+                <img class="textimg" src="../EbrailleAssets/uploads/EibrailleLogo.png" alt="EiBraille" draggable="false">
+        </center>
+        </button>
+        <div style="display: flex;">
+            <button style="background-color: transparent; border: none;">
+                <H1 onfocus="prepareAudio(กล่างเริ่มค้น)">กล่าวเริ่มต้น</H1>
+            </button>
+            <!-- <img class="Dog" src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2FDOG.png?alt=media&token=81baa2e3-03ba-414c-b731-f8dbe1c04ee3" alt="DookDig" draggable="false"> -->
+            <img class="Dog" src="https://firebasestorage.googleapis.com/v0/b/eibraillex-81280.appspot.com/o/Asset%2F711153df-3508-4c72-900b-5ae10e-unscreen.gif?alt=media&token=85d5046d-0a13-4d41-93d5-a980750bf658" alt="DookDig" draggable="false">
+        </div>
+    </contain>
+</body>
+
+<style>
+    .contain{
+        position: fixed;
+        bottom: 0%;
+    }
+
+    body {
+        background-image: url('../EbrailleAssets/uploads/Background2.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow-x: hidden;
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+    }
+
+    .text img{
+        width: 140vh;
+        height: auto;
+    }
+
+
+    .text{
+        /* width: 100vw; */
+        position: relative;
+        /* left: 5vw; */
+        top: -8vw; 
+    }
+    button:focus{
+        outline: none !important;
+    }
+
+    .text:focus {
+    filter: grayscale(100%);
+    filter: contrast(50%);
+    }
+
+    .Dog {
+        display: flex;
+        width: 150vh;
+        height: auto;
+        z-index: -1;
+        margin-top: -27%;
+    }
+
+    h1{
+        animation: saystart forwards 750ms;
+        animation-delay: 1000ms;
+        font-family: 'Kanit';
+        color: white;
+        position: fixed;
+        bottom: 15%;
+        font-size: 7vh;
+        background-image: url("EbrailleAssets/uploads/speak.png");
+        background-size: 100%;
+        padding: 8vh;
+        padding-bottom: 12vh;
+        background-position: center;
+        opacity: 0%;
+    }
+
+    /* button:active{
+        filter: contrast(200%);
+
+    } */
+
+    @keyframes saystart {
+        from {
+            opacity: 0%
+        }to {
+            opacity:100%
+        }
+    }
+</style>
+<script>
+    let audioEnabled = false;
+    let isMuted = false;
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.getElementById('enable-audio').click();
+    });
+
+    function enableAudio() {
+        audioEnabled = true;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var iframe = document.getElementById("background-music");
+        var muteButton = document.getElementById("mute-button");
+
+        iframe.src = iframe.src;
+
+        muteButton.addEventListener("click", function() {
+            if (isMuted) {
+                // Unmute the video
+                iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
+                muteButton.textContent = 'Mute';
+            } else {
+                // Mute the video
+                iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
+                muteButton.textContent = 'Unmute';
+            }
+            isMuted = !isMuted;
+        });
+    });
+
+    function prepareAudio(text) {
+        if (!audioEnabled) return;
+        fetch(`/exercise/speak/?text=${encodeURIComponent(text)}&lang=en`)
+            .then(response => response.blob())
+            .then(blob => {
+                const audio = document.getElementById('tts-audio');
+                audio.src = URL.createObjectURL(blob);
+                audio.play();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Tab') {
+            window.location.href = '/Setting/Connect';
+        }
+    });
+</script>
+</html>

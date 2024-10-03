@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Successful</title>
+    <style>
+        body {
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2F%E0%B8%AA%E0%B8%B8%E0%B9%88%E0%B8%A1%E0%B8%84%E0%B8%B3%20%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99%E0%B8%AB%E0%B8%A5%E0%B8%B1%E0%B8%87.svg?alt=media&token=f476c11e-f624-4b43-af95-cbc59835cb68');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Segoe UI', sans-serif;
+            color: #ffffff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            margin: 20px auto;
+        }
+
+        a {
+            display: inline-block;
+            background-color: #004aac;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        a:hover {
+            background-color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Successful</h1>
+    <p>Your document has been successfully uploaded and translated into Braille.</p>
+    <a href="{% url 'upload_file' %}">Upload another document</a>
+</body>
+</html>

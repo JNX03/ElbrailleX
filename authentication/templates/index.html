@@ -12,7 +12,7 @@
     <contain class="contain" style="display: flex; flex-direction: column; align-content: center; justify-content: center; align-items: center;">
         <center>
             <button name="text" style="color: transparent; background-color: transparent; border-color: transparent; cursor: default; width: 170vh;" class="text">
-                <img class="textimg" src="../EbrailleAssets/uploads/EibrailleLogo.png" alt="EiBraille" draggable="false">
+                <img class="textimg" src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2Ftext.png?alt=media&token=1701f022-0ef3-4280-b724-d26781547da3" alt="EiBraille" draggable="false">
         </center>
         </button>
         <div style="display: flex;">
@@ -20,7 +20,7 @@
                 <H1 onfocus="prepareAudio(กล่างเริ่มค้น)">กล่าวเริ่มต้น</H1>
             </button>
             <!-- <img class="Dog" src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2FDOG.png?alt=media&token=81baa2e3-03ba-414c-b731-f8dbe1c04ee3" alt="DookDig" draggable="false"> -->
-            <img class="Dog" src="https://firebasestorage.googleapis.com/v0/b/eibraillex-81280.appspot.com/o/Asset%2F711153df-3508-4c72-900b-5ae10e-unscreen.gif?alt=media&token=85d5046d-0a13-4d41-93d5-a980750bf658" alt="DookDig" draggable="false">
+            <img class="Dog" src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FDookDigV2.gif?alt=media&token=79d945e7-6806-4b8a-91bf-4d114bf8f653" alt="DookDig" draggable="false">
         </div>
     </contain>
 </body>
@@ -32,7 +32,7 @@
     }
 
     body {
-        background-image: url('../EbrailleAssets/uploads/Background2.png');
+        background-image: url('https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2FBG.png?alt=media&token=cc339f5d-4b80-4789-8038-429e7343b626');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -82,7 +82,7 @@
         position: fixed;
         bottom: 15%;
         font-size: 7vh;
-        background-image: url("EbrailleAssets/uploads/speak.png");
+        background-image: url("https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FTextBox.svg?alt=media&token=35f80c6b-38e6-43c5-a7ac-9f1a2d9a22a5");
         background-size: 100%;
         padding: 8vh;
         padding-bottom: 12vh;
@@ -152,7 +152,18 @@
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Tab') {
             window.location.href = '/Setting/Connect';
+        }elif (event.key == 'T')
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'T' || event.key === 't') {
+            window.location.href = 'home/teacher/';
+        } else if (event.key === 'S' || event.key === 's') {
+            window.location.href = 'home/';
+        } else if (event.key === 'C' || event.key === 'c') {
+            window.location.href = 'home/chose/';
         }
     });
+    
 </script>
 </html>

@@ -1,318 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EiBraille</title>
-    <link rel="shortcut icon" type="x-icon" href="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2FDOG.png?alt=media&token=81baa2e3-03ba-414c-b731-f8dbe1c04ee3">
+    <link rel="shortcut icon" type="x-icon"
+        href="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2FDOG.png?alt=media&token=81baa2e3-03ba-414c-b731-f8dbe1c04ee3">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
 </head>
+
 <body>
     <div id="background-music-container" style="display: none;">
-        <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe id="background-music" width="0" height="0"
+            src="https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}"
+            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
-    <button id="mute-button" style="position: fixed; bottom: 100px; right: 100px; z-index: 1000;">Mute</button>
-        <div id="userForm">
+    <button id="mute-button" class="floating-button">Mute</button>
+
+    <div id="userForm">
+        <h1>Welcome to EiBraille</h1>
+        <p>Please enter your username to get started</p>
         <input type="text" id="username" placeholder="Enter your username" required>
-        <button id="startButton">Start</button>
+        <button id="startButton" class="primary-button">Start</button>
     </div>
+
     <div id="cameraSection" style="display: none;">
         <video id="webcam" autoplay></video>
         <div id="countdown" style="font-size: 2rem; color: white; position: absolute; top: 10px;"></div>
         <canvas id="canvas" style="display: none;"></canvas>
     </div>
-    <audio id="audioPlayback" controls style="display:none;"></audio>
-</body>
 
-<style>
-    body {
-        background-image: url('EbrailleAssets/uploads/Background2.png');
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        overflow-x: hidden;
-        display: flex; 
-        justify-content: center; 
-        align-items: center;
-        flex-direction: column;
-    }
-    #webcam {
-        width: 90vw;
-        max-width: 1280px;
-        aspect-ratio: 16 / 9;
-        border-radius: 20px;
-        background-color: white;
-        object-fit: cover;
-    }
-    #userForm, #cameraSection {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    #username {
-        padding: 10px;
-        font-size: 16px;
-        margin-bottom: 10px;
-    }
-    #startButton {
-        padding: 10px 20px;
-        font-size: 16px;
-        margin-top: 10px;
-        cursor: pointer;
-    }
-    #countdown {
-        font-size: 3rem;
-        color: white;
-        position: absolute;
-        top: 10px;
-    }
-</style>
+    <audio id="audioPlayback" controls style="display: none;"></audio>
 
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyDhoW3-RxzTczI9FqV0Fg5lafKty0g0_DE",
-        authDomain: "brailleproject-8091a.firebaseapp.com",
-        databaseURL: "https://brailleproject-8091a-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "brailleproject-8091a",
-        storageBucket: "brailleproject-8091a.appspot.com",
-        messagingSenderId: "1000098958215",
-        appId: "1:1000098958215:web:19e7f4e31ddda933d6a122",
-        measurementId: "G-2FTL8V7H0B"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-
-    firebase.auth().signInAnonymously().catch((error) => {
-        console.error('Error signing in anonymously:', error);
-    });
-
-    firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-            console.log('User is signed in:', user);
-        } else {
-            console.log('No user is signed in.');
+    <style>
+        body {
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2FBG.png?alt=media&token=cc339f5d-4b80-4789-8038-429e7343b626');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Roboto', sans-serif;
+            color: #fff;
         }
-    });
 
-    let isMuted = false;
-
-document.addEventListener("DOMContentLoaded", function() {
-    var iframe = document.getElementById("background-music");
-    var muteButton = document.getElementById("mute-button");
-
-    iframe.src = iframe.src;
-
-    muteButton.addEventListener("click", function() {
-        if (isMuted) {
-            // Unmute the video
-            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
-            muteButton.textContent = 'Mute';
-        } else {
-            // Mute the video
-            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
-            muteButton.textContent = 'Unmute';
+        #userForm {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        isMuted = !isMuted;
-    });
-});
-document.addEventListener('keydown', (event) => {
-            if (event.key === 'A' || event.key === 'a') {
-                window.location.href = '../home/';
-            } else if (event.key === 'P' || event.key === 'p') {
-                window.location.href = '../home/';
-            }
+
+        #userForm h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        #userForm p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        #username {
+            padding: 15px;
+            font-size: 18px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            outline: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        #username:focus {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .primary-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .primary-button:hover {
+            background-color: #45a049;
+        }
+
+        #cameraSection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #webcam {
+            width: 90vw;
+            max-width: 1280px;
+            aspect-ratio: 16 / 9;
+            border-radius: 10px;
+            background-color: white;
+            object-fit: cover;
+        }
+
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .floating-button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+    </style>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhoW3-RxzTczI9FqV0Fg5lafKty0g0_DE",
+            authDomain: "brailleproject-8091a.firebaseapp.com",
+            databaseURL: "https://brailleproject-8091a-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "brailleproject-8091a",
+            storageBucket: "brailleproject-8091a.appspot.com",
+            messagingSenderId: "1000098958215",
+            appId: "1:1000098958215:web:19e7f4e31ddda933d6a122",
+            measurementId: "G-2FTL8V7H0B"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        firebase.auth().signInAnonymously().catch((error) => {
+            console.error('Error signing in anonymously:', error);
         });
-    document.getElementById('startButton').addEventListener('click', function() {
-        const username = document.getElementById('username').value;
-        if (username) {
-            document.getElementById('userForm').style.display = 'none';
-            document.getElementById('cameraSection').style.display = 'flex';
-            startWebcam();
-        } else {
-            alert('Please enter your username.');
-        }
-    });
 
-    async function startWebcam() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const videoElement = document.getElementById('webcam');
-            videoElement.srcObject = stream;
-
-            let countdown = 5;
-            const countdownElement = document.getElementById('countdown');
-            countdownElement.textContent = countdown;
-            const countdownInterval = setInterval(() => {
-                countdown--;
-                countdownElement.textContent = countdown;
-                if (countdown === 0) {
-                    clearInterval(countdownInterval);
-                    captureImages(3);
-                }
-            }, 1000);
-        } catch (error) {
-            console.error('Error accessing webcam:', error);
-        }
-    }
-
-    async function captureImages(numberOfPhotos) {
-        const canvas = document.getElementById('canvas');
-        const videoElement = document.getElementById('webcam');
-        const countdownElement = document.getElementById('countdown');
-        countdownElement.style.display = 'none';
-        canvas.width = videoElement.videoWidth;
-        canvas.height = videoElement.videoHeight;
-        const context = canvas.getContext('2d');
-        const photos = [];
-
-        for (let i = 0; i < numberOfPhotos; i++) {
-            context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-            photos.push(canvas.toDataURL('image/png'));
-            if (i < numberOfPhotos - 1) {
-                await new Promise(resolve => setTimeout(resolve, 1000));
-            }
-        }
-
-        console.log('Captured Images:', photos);
-
-        videoElement.srcObject.getTracks().forEach(track => track.stop());
-
-        Swal.fire({
-            title: 'Is this image okay?',
-            imageUrl: photos[photos.length - 1],
-            imageAlt: 'Captured Image',
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                uploadImagesToFirebase(photos);
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log('User is signed in:', user);
             } else {
-                startWebcam();
+                console.log('No user is signed in.');
             }
         });
-    }
 
-    async function uploadImagesToFirebase(photos) {
-        try {
+        let isMuted = false;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var iframe = document.getElementById("background-music");
+            var muteButton = document.getElementById("mute-button");
+
+            muteButton.addEventListener("click", function () {
+                if (isMuted) {
+                    iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
+                    muteButton.textContent = 'Mute';
+                } else {
+                    iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
+                    muteButton.textContent = 'Unmute';
+                }
+                isMuted = !isMuted;
+            });
+        });
+
+        document.getElementById('startButton').addEventListener('click', function () {
             const username = document.getElementById('username').value;
-            const storageRef = firebase.storage().ref();
-            for (const photo of photos) {
-                const imageRef = storageRef.child(`Authen2/${username}/Image/${Date.now()}.png`);
-                const snapshot = await imageRef.putString(photo, 'data_url');
-                console.log('Uploaded a base64 string!', snapshot);
-                const downloadURL = await snapshot.ref.getDownloadURL();
-                console.log('File available at', downloadURL);
+            if (username) {
+                document.getElementById('userForm').style.display = 'none';
+                document.getElementById('cameraSection').style.display = 'flex';
+                startWebcam();
+            } else {
+                alert('Please enter your username.');
             }
-            recordAudio();
-        } catch (error) {
-            console.error('Error uploading images:', error);
+        });
+
+        async function startWebcam() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const videoElement = document.getElementById('webcam');
+                videoElement.srcObject = stream;
+
+                let countdown = 5;
+                const countdownElement = document.getElementById('countdown');
+                countdownElement.textContent = countdown;
+                const countdownInterval = setInterval(() => {
+                    countdown--;
+                    countdownElement.textContent = countdown;
+                    if (countdown === 0) {
+                        clearInterval(countdownInterval);
+                        captureImages(3);
+                    }
+                }, 1000);
+            } catch (error) {
+                console.error('Error accessing webcam:', error);
+            }
+        }
+
+        async function captureImages(numberOfPhotos) {
+            const canvas = document.getElementById('canvas');
+            const videoElement = document.getElementById('webcam');
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.style.display = 'none';
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            const context = canvas.getContext('2d');
+            const photos = [];
+
+            for (let i = 0; i < numberOfPhotos; i++) {
+                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                photos.push(canvas.toDataURL('image/png'));
+                if (i < numberOfPhotos - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
+
+            console.log('Captured Images:', photos);
+
+            videoElement.srcObject.getTracks().forEach(track => track.stop());
+
             Swal.fire({
-                icon: 'error',
-                title: 'Upload failed',
-                text: 'Error uploading images: ' + error.message
+                title: 'Is this image okay?',
+                imageUrl: photos[photos.length - 1],
+                imageAlt: 'Captured Image',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    uploadImagesToFirebase(photos);
+                } else {
+                    startWebcam();
+                }
             });
         }
-    }
 
-    function recordAudio() {
-        Swal.fire({
-            title: 'Please say "สวัสดี eibraille" three times',
-            confirmButtonText: 'Start Recording'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                startRecording();
-            }
-        });
-    }
-
-    function startRecording() {
-        navigator.mediaDevices.getUserMedia({ audio: true })
-            .then(stream => {
-                const mediaRecorder = new MediaRecorder(stream);
-                const audioChunks = [];
-                mediaRecorder.ondataavailable = event => {
-                    audioChunks.push(event.data);
-                };
-                mediaRecorder.onstop = async () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    const audioURL = URL.createObjectURL(audioBlob);
-
-                    // Debugging: Play the audio locally
-                    const audioPlayback = document.getElementById('audioPlayback');
-                    audioPlayback.src = audioURL;
-                    audioPlayback.style.display = 'block';
-                    audioPlayback.play();
-
-                    const audioRef = firebase.storage().ref().child(`Authen2/${document.getElementById('username').value}/${document.getElementById('username').value}-audio.wav`);
-                    await audioRef.put(audioBlob);
-                    const audioDownloadURL = await audioRef.getDownloadURL();
-                    console.log('Audio file available at', audioDownloadURL);
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Audio uploaded successfully',
-                        text: 'Now you can log in.'
-                    });
-                    saveAudioLocally(audioBlob, document.getElementById('username').value);
-                    postToTrainEndpoint(document.getElementById('username').value);
-                };
-                mediaRecorder.start();
-                setTimeout(() => mediaRecorder.stop(), 5000);
-            })
-            .catch(error => {
-                console.error('Error accessing audio devices:', error);
+        async function uploadImagesToFirebase(photos) {
+            try {
+                const username = document.getElementById('username').value;
+                const storageRef = firebase.storage().ref();
+                for (const photo of photos) {
+                    const imageRef = storageRef.child(`Authen2/${username}/Image/${Date.now()}.png`);
+                    const snapshot = await imageRef.putString(photo, 'data_url');
+                    console.log('Uploaded a base64 string!', snapshot);
+                    const downloadURL = await snapshot.ref.getDownloadURL();
+                    console.log('File available at', downloadURL);
+                }
+                recordAudio();
+            } catch (error) {
+                console.error('Error uploading images:', error);
                 Swal.fire({
                     icon: 'error',
-                    title: 'Recording failed',
-                    text: 'Error accessing audio devices: ' + error.message
+                    title: 'Upload failed',
+                    text: 'Error uploading images: ' + error.message
                 });
-            });
-    }
-
-    async function saveAudioLocally(audioBlob, username) {
-        const formData = new FormData();
-        formData.append('audio', audioBlob, `${username}-audio.wav`);
-        formData.append('username', username);
-
-        fetch('/saveAudio/', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Audio saved locally:', data);
-        })
-        .catch(error => {
-            console.error('Error saving audio locally:', error);
-        });
-    }
-
-    async function postToTrainEndpoint(username) {
-        try {
-            const response = await fetch(`/train?username=${username}`, {
-                method: 'POST',
-            });
-            if (response.ok) {
-                console.log('Successfully posted to train endpoint');
-                redirectToHome();
-            } else {
-                console.error('Error posting to train endpoint:', response.statusText);
             }
-        } catch (error) {
-            console.error('Error posting to train endpoint:', error);
         }
-    }
 
-    function redirectToHome() {
-        setTimeout(function() {
-            window.location.href = '../home/';
-        }, 1000);
-    }
-</script>
+        function recordAudio() {
+            Swal.fire({
+                title: 'Please say "สวัสดี eibraille" three times',
+                confirmButtonText: 'Start Recording'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    startRecording();
+                }
+            });
+        }
+
+        function startRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    const mediaRecorder = new MediaRecorder(stream);
+                    const audioChunks = [];
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+                    mediaRecorder.onstop = async () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        const audioURL = URL.createObjectURL(audioBlob);
+
+                        // Debugging: Play the audio locally
+                        const audioPlayback = document.getElementById('audioPlayback');
+                        audioPlayback.src = audioURL;
+                        audioPlayback.style.display = 'block';
+                        audioPlayback.play();
+
+                        const audioRef = firebase.storage().ref().child(`Authen2/${document.getElementById('username').value}/${document.getElementById('username').value}-audio.wav`);
+                        await audioRef.put(audioBlob);
+                        const audioDownloadURL = await audioRef.getDownloadURL();
+                        console.log('Audio file available at', audioDownloadURL);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Audio uploaded successfully',
+                            text: 'Now you can log in.'
+                        });
+                        saveAudioLocally(audioBlob, document.getElementById('username').value);
+                        postToTrainEndpoint(document.getElementById('username').value);
+                    };
+                    mediaRecorder.start();
+                    setTimeout(() => mediaRecorder.stop(), 5000);
+                })
+                .catch(error => {
+                    console.error('Error accessing audio devices:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Recording failed',
+                        text: 'Error accessing audio devices: ' + error.message
+                    });
+                });
+        }
+
+        async function saveAudioLocally(audioBlob, username) {
+            const formData = new FormData();
+            formData.append('audio', audioBlob, `${username}-audio.wav`);
+            formData.append('username', username);
+
+            fetch('/saveAudio/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Audio saved locally:', data);
+            })
+            .catch(error => {
+                console.error('Error saving audio locally:', error);
+            });
+        }
+
+        async function postToTrainEndpoint(username) {
+            try {
+                const response = await fetch(`/train?username=${username}`, {
+                    method: 'POST',
+                });
+                if (response.ok) {
+                    console.log('Successfully posted to train endpoint');
+                    redirectToHome();
+                } else {
+                    console.error('Error posting to train endpoint:', response.statusText);
+                    redirectToHome();
+                }
+            } catch (error) {
+                console.error('Error posting to train endpoint:', error);
+                redirectToHome();
+            }
+        }
+
+        function redirectToHome() {
+            setTimeout(function () {
+                window.location.href = '/home/';
+            },);
+        }
+    </script>
+</body>
+
 </html>

@@ -20,3 +20,12 @@ def text_to_speech(request):
         response['Content-Disposition'] = 'inline; filename="speech.mp3"'
         return response
     return HttpResponse("No text provided.", status=400)
+
+def chose(request):
+    return render(request, "chose.html")
+
+def teacher(request):
+    return render(request, "teacher.html")
+
+def result(request):
+    return render(request, "result.html")

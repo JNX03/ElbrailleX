@@ -1,102 +1,210 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EiBraille</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'basicbraille.css' %}">
-    <link rel="shortcut icon" type="x-icon" href="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FLessonpage%2FLogo.svg?alt=media&token=15969fac-1d91-4154-805e-ab2bb7494147">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-</head>
-<body>
-    <center>
-        <div class="All">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EiBraille</title>
+        {% load static %}
+        <link rel="shortcut icon" type="x-icon" href="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FLessonpage%2FLogo.svg?alt=media&token=15969fac-1d91-4154-805e-ab2bb7494147">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    </head>
+    <style>
+
+        .topic{
+            margin-bottom: 70vh;
+            width: 50vw;
+        }
+
+        body {
+        overflow: hidden;
+        background-image: url('https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FBackground2.svg?alt=media&token=0590fffc-395b-4a74-b1d8-b8fc7223e346');
+        background-size: cover;
+        background-position: center;
+        background-position-y: 0vh;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow-x: hidden;
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+        max-height: 1920px;
+    }
+
+    .Next{
+        position: fixed;
+        bottom: 2vw;
+        right: 400px;
+        width: auto;
+        height: auto;
+        background-color: #edc76a;
+        border-radius: 50%;
+        border: none;
+        margin-top: -90px;
+        margin-right: 380px;
+        box-shadow: none;
+        position: fixed;
+        
+    }
+
+    .Next img{
+        filter: invert(70%);
+        width: 70PX;
+        margin: 20px;
+    }
+
+    .Home{
+        position: fixed;
+        bottom: 3vh;
+        left: 400px;
+        width: auto;
+        height: auto;
+        background-color: #edc76a;
+        border-radius: 50%;
+        border: none;
+        margin-top: -90px;
+        margin-left: 378px;
+        box-shadow: none;
+        position: fixed;
+    }
+
+    .Home img{
+        filter: invert(70%);
+        width: 70PX;
+        margin: 20px;
+    }
+
+    .menubutton{
+            display: flex;
+            position: fixed;
+            top: 12vw;
+        }
+
+        .menubutton button{
+            margin: 1.25vh;
+    }
+
+        .Lower{
+            width: 30vw;
+            height: 60vh;
+            background-image: url("https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FUpperButton.svg?alt=media&token=722292d7-73c6-4305-bc9b-ffda101853ef");
+            background-size: 85%;
+            background-position: center;
+            background-color: rgba(0, 0, 0 ,0);
+            background-repeat: no-repeat;
+            border: none;
+        }
+
+        .Upper{
+            width: 30vw;
+            height: 60vh;
+            background-image: url("https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FLowerButton.svg?alt=media&token=87acb239-bfc8-46e0-8fbc-e779a0ed2e1a");
+            background-size: 85%;
+            background-position: center;
+            background-color: rgba(0, 0, 0 ,0);
+            background-repeat: no-repeat;
+            border: none;
+        }
+
+        .Num{
+            width: 30vw;
+            height: 60vh;
+            background-image: url("https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FNumButton.svg?alt=media&token=57f88c24-1016-42de-bc7a-f2619494b285");
+            background-size: 85%;
+            background-position: center;
+            background-color: rgba(0, 0, 0 ,0);
+            background-repeat: no-repeat;
+            border: none;
+        }
+
+        button:active{
+            filter: grayscale(50%);
+            filter: contrast(85%);
+        }
+
+
+    </style>
+    <body>
+        <div id="background-music-container" style="display: none;">
+            <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        <button id="mute-button" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">Mute</button>
+        
+        <center>
+            <img class="topic" src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2Fbasicbrailllelearningtopic.svg?alt=media&token=f39bada8-eeb0-487b-9524-e7da5e185bf4">
+        </center>
+
+        <div class="menubutton">
             <a href="../../game/lower/">
-                <button name="Small" id="Small" class="Small" tabindex="0" onmouseover="prepareAudio('เรียนตัวอักษรพิมพ์เล็ก')" onfocus="prepareAudio('เรียน ตัวอักษรพิมพ์เล็ก')">
-                    <center><span></span></center>
-                    <img draggable="false" class="Small" src="../../EbrailleAssets/uploads/Group_290.png" alt="Lesson">
-                </button>
+                <button class="Lower"></button>
             </a>
-
+        
             <a href="../../game/upper/">
-                <button name="Big" id="Big" class="Big" tabindex="0" onmouseover="prepareAudio('เรียนตัวอักษรพิมพ์ใหญ่')" onfocus="prepareAudio('เรียน ตัวอักษรพิมพ์ใหญ่')">
-                    <center><span></span></center>
-                    <img draggable="false" class="Big" src="../../EbrailleAssets/uploads/Group_291.png" alt="Lesson">
-                </button>
+                <button class="Upper"></button>
             </a>
-
+        
             <a href="../../game/number/">
-                <button name="Num" id="Num" class="Num" tabindex="0" onmouseover="prepareAudio('เรียนตัวเลข')" onfocus="prepareAudio('เรียน ตัวเลข')">
-                    <center><span></span></center>
-                    <img draggable="false" class="Num" src="../../EbrailleAssets/uploads/Group_292.png" alt="Lesson">
-                </button>
+                <button class="Num"></button>
             </a>
         </div>
-    </center>
 
-    <div class="interactcontent">
-        <a href="{% url 'homescreen' %}">
-            <button class="Next" tabindex="0"  onmouseover="prepareAudio('Back')" onfocus="prepareAudio('Back')">
-                <img draggable="false" src="../../EbrailleAssets/uploads/Group_293.png" alt="Bookmark">
-            </button>
-        </a>
-        <a href="{% url 'homescreen' %}">
-            <button class="Next" tabindex="0"  onmouseover="prepareAudio('Home')" onfocus="prepareAudio('Back')">
-                <img draggable="false" src="../../EbrailleAssets/uploads/Group_294.png" alt="Bookmark">
-            </button>
-        </a>
-    </div>
+        <center>
+        </div>
+        
+            <div class="interactcontent">
+            <a href="{% url 'homescreen' %}"><button class="Next"> <img draggable="false" src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fback.svg?alt=media&token=ef43e623-62bd-4b82-af23-55fea5f6456a" alt="Bookmark"></button></a>
+            <a href="{% url 'homescreen' %}"><button class="Home"> <img draggable="false" src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2Flearnpage%2Fhome.svg?alt=media&token=583f399c-ad48-4684-af35-292be8bc3d62" alt="Bookmark"></button></a>
+        </div>
+        </center> 
+        <audio id="tts-audio" style="display:none;"></audio>
+        <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
 
-    <audio id="tts-audio" style="display:none;"></audio>
-    <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
+        <script>
+            let audioEnabled = false;
+            let isMuted = false;
 
-    <script>
-        let audioEnabled = false;
-        let isMuted = false;
+    document.addEventListener("DOMContentLoaded", function() {
+        var iframe = document.getElementById("background-music");
+        var muteButton = document.getElementById("mute-button");
 
-document.addEventListener("DOMContentLoaded", function() {
-    var iframe = document.getElementById("background-music");
-    var muteButton = document.getElementById("mute-button");
+        iframe.src = iframe.src;
 
-    iframe.src = iframe.src;
-
-    muteButton.addEventListener("click", function() {
-        if (isMuted) {
-            // Unmute the video
-            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
-            muteButton.textContent = 'Mute';
-        } else {
-            // Mute the video
-            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
-            muteButton.textContent = 'Unmute';
-        }
-        isMuted = !isMuted;
-    });
-});
-        document.addEventListener('DOMContentLoaded', (event) => {
-            document.getElementById('enable-audio').click();
+        muteButton.addEventListener("click", function() {
+            if (isMuted) {
+                // Unmute the video
+                iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
+                muteButton.textContent = 'Mute';
+            } else {
+                // Mute the video
+                iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
+                muteButton.textContent = 'Unmute';
+            }
+            isMuted = !isMuted;
         });
+    });
+            document.addEventListener('DOMContentLoaded', (event) => {
+                document.getElementById('enable-audio').click();
+            });
 
-        function enableAudio() {
-            audioEnabled = true;
-        }
+            function enableAudio() {
+                audioEnabled = true;
+            }
 
-        function prepareAudio(text) {
-            if (!audioEnabled) return;
-            fetch(`/exercise/speak/?text=${encodeURIComponent(text)}&lang=th`)
-                .then(response => response.blob())
-                .then(blob => {
-                    const audio = document.getElementById('tts-audio');
-                    audio.src = URL.createObjectURL(blob);
-                    audio.play();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-    </script>
-</body>
-</html>
+            function prepareAudio(text) {
+                if (!audioEnabled) return;
+                fetch(`/exercise/speak/?text=${encodeURIComponent(text)}&lang=th`)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const audio = document.getElementById('tts-audio');
+                        audio.src = URL.createObjectURL(blob);
+                        audio.play();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        </script>
+    </body>
+    </html>

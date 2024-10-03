@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="overlay">
+        <button class="back">
+            <img src="../../EbrailleAssets/uploads/Forward_b.png" alt="Back">
+        </button>
+        <button class="topic">
+            <h1>บวก</h1>
+        </button>
+    </div>
+    <div class="content">
+        <h1>+</h1>
+        <div class="brailledisplay">
+            <div class="cell" id="C1">
+                <div class="leftzone">
+                    <div class="b1"></div>
+                    <div class="b2"></div>
+                    <div class="b3"></div>
+                </div>
+                <div class="rightzone">
+                    <div class="b4"></div>
+                    <div class="b5"></div>
+                    <div class="b6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay">
+        <button class="next"></button>
+    </div>
+</body>
+</html>
+
+<style>
+        body{
+            background-image: url(https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2FBGMath.svg?alt=media&token=fcff57e6-6492-47f0-83dd-ec6a2123a4ad);
+            background-size: cover;
+            background-position: center;
+            background-position-y: -6vh;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            max-height: 1920px;
+    }
+    @media (device-width: 100vw) and (device-height: 100vh) {
+        body{
+            background-position-y: 0vh;
+        }
+    }
+
+    .back{
+        position: fixed;
+        background-color: #edc76a!important;
+        border-radius: 50%!important;
+        border: none!important;
+    }
+    .overlay{
+        position: fixed;
+        top: 3vh;
+    }
+    .overlay h1{
+        font-size:4vw;
+        color: #4e4e4e;
+        background-color: #e5dcd0;
+        padding-bottom: 1.5vh;
+        padding-left: 6vw;
+        padding-right: 6vw;
+        padding-top: 0vh;
+        border-radius: 2.5%;
+    }
+
+    .back{
+        left: 6vw;
+        top: 8vh;
+    }
+    .back img{
+        filter: invert(90%);
+    }
+
+
+    .cell{
+        display: flex;
+        background-color: #f3d7a2;
+        padding: 1vh;
+        border-radius: 5.5%;
+        margin: 1vh;
+    }
+
+    .b1,.b2,.b3,.b4,.b5,.b6{
+        background-color: #22211f;
+        width: 5.5vw;
+        height: 5.5vw;
+        margin: 1vh;
+        border-radius: 50%;
+    }
+
+    .b1,.b2,.b5{
+        background-color: #ce9517;
+        width: 3.5vw;
+        margin: 3.5vh;
+        height: 3.5vw;
+    }
+    
+    .brailledisplay {
+        display: inline-flex;
+    }
+
+    .next{
+        background-image: url(https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FNewWebPage%2Fexampleusage.svg?alt=media&token=032eb8ba-80e9-4f31-815b-8622f68c1772);
+        background-position: center;
+        background-size: 100%;
+        width: 21.5vw;
+        height: 14vh;
+        border-radius: 0% !important;
+        background-color: transparent!important;
+        background-repeat: no-repeat;
+        left: 39.5vw;
+        bottom: 10vh;
+        position: fixed;
+        z-index: 3;
+    }
+
+
+
+    button{
+        background-color: transparent!important;
+        border: none;
+    }
+
+    .content {
+        display: flex;
+        position: fixed;
+        /* outline: none; */
+    }
+
+    .content h1{
+        align-self: center;
+        font-size: 70vh;
+        margin: 0;
+        line-height: 0px;
+        font-weight: bold;
+        font-family: sans-serif;
+    }
+</style>

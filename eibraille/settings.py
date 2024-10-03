@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
-YOUTUBE_VIDEO_ID = "123E5zroU6vuuo"#remove 123
+YOUTUBE_VIDEO_ID = "E5zroffwe8u3290U6vuuo"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-k#w7s2t(!(40fg$6v7ho#(qoxd2fai3rww^@85ft=+by6!91+i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aeca-49-228-240-63.ngrok-free.app','*']
+ALLOWED_HOSTS = ['.ngrok-free.app','*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'exercise',
     'game',
     'Setting',
-    'teacher',
+    'GPB',
+    'TGPB',
+    'braille_translator',
 ]
 
 MIDDLEWARE = [
@@ -117,11 +119,19 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Media files
-MEDIA_URL = '/EbrailleAssets/'
-MEDIA_ROOT = BASE_DIR / 'EbrailleAssets'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH = False
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://10.10.213.46:8000',
+]

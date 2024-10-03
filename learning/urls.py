@@ -21,4 +21,5 @@ urlpatterns = [
 
   path('sym1/', views.sym1, name='sym1'),
   path('sym2/', views.sym2, name='sym2'),
+  path('smal/', views.smal, name='smal'),
 ]

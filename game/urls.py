@@ -7,5 +7,5 @@ urlpatterns = [
     path('upper/', upper, name='upper'),
     path('short/', short, name='short'),
     path('math2/', math2, name='math2'),
-    path('sym/', sym1, name='sym1'),
+    path('sym1/', sym1, name='sym1'),
 ]

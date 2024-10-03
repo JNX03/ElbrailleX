@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EiBraille</title>
+    <link rel="stylesheet" href="userpage.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2Fredbg.png?alt=media&token=914a663a-fb3d-433e-95de-70fca85005e0");
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .button img {
+            height: 400px;
+            width: auto;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .button img:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../teacher/" class="button">
+            <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2Fteachersticker.png?alt=media&token=071c6132-e684-4584-aa77-73e4cb0b680f" alt="คุณครู">
+        </a>
+        <a href="../" class="button">
+            <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2Fstudentsticker.png?alt=media&token=771f21d5-4994-4587-83bb-6dac4bd205cd" alt="นักเรียน">
+        </a>
+        <a href="../teacher/" class="button">
+            <img src="https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FTime%2Fparentsticker.png?alt=media&token=e73509af-43b2-430a-828d-a097cfbc8b3f" alt="ผู้ปกครอง">
+        </a>
+    </div>
+</body>
+</html>

@@ -55,22 +55,23 @@
             z-index: 2;
             position: relative;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-self: center;
+            justify-self: center;
         }
 
         .slider {
             position: relative;
             width: 140%;
             height: 140%;
+            /* top: 10vh; */
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .slider img {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 150%;
+            max-height: 150%;
             display: none;
         }
 
@@ -84,10 +85,10 @@
             transform: translateY(-50%);
             width: 50px;
             height: 50px;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0);
             border: none;
             border-radius: 50%;
-            color: white;
+            color: #000000;
             cursor: pointer;
             z-index: 3;
             font-size: 1.5rem;
@@ -97,23 +98,27 @@
         }
 
         .button-left {
-            left: 0;
+            left: -10vw;
+            font-size: 15vw;
         }
 
         .button-right {
-            right: 0;
+            right: -10vw;
+            font-size: 15vw;
         }
 
         .close-button {
             position: absolute;
             top: 25%;
-            left: 72%;
+            left: 75%;
             transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background-color: lightblue;
-            border: none;
+            width: 80px;
+            height: 80px;
+            background-color: #285890;
+            border-color: #98caec;
+            border-width: 1vh;
             border-radius: 50%;
+            border-style: solid;
             cursor: pointer;
             z-index: 3;
             display: flex;
@@ -211,7 +216,7 @@
             <button class="button-right" onclick="nextSlide()">&#8250;</button>
         </div>
         <h1 class="text-label">แนะนำการใช้อุปกรณ์</h1>
-        <button href="../../" class="close-button" onclick="exit()">
+        <button href="homeapp/index/" class="close-button" onclick="exit()">
             <img src="https://cdn.animaapp.com/projects/66a2697bc91c76342e531ec0/releases/66a269a378eeddbd17af7ede/img/vector.svg" alt="Close">
         </button>
         <button class="next-button" id="nextButton">Next</button>

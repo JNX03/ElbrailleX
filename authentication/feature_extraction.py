@@ -17,7 +17,7 @@ BUCKET_STEP = 1
 MAX_SEC = 10
 
 # Model and embedding constants
-MODEL_FILE = "voice_auth_model_jnx"
+MODEL_FILE = "voice_auth_model_cnn"
 COST_METRIC = "cosine"  # euclidean or cosine
 INPUT_SHAPE = (NUM_FFT, None, 1)
 
