@@ -1,0 +1,215 @@
+{
+    "url": "https://www.prc.ac.th/",
+    "technologies": [
+        "WordPress 6.6.2",
+        "WordPress 6.6.2"
+    ],
+    "meta_tags": [
+        {
+            "name": "viewport",
+            "content": "width=device-width, initial-scale=1"
+        },
+        {
+            "name": "robots",
+            "content": "max-image-preview:large"
+        },
+        {
+            "name": "generator",
+            "content": "WordPress 6.6.2"
+        },
+        {
+            "name": "generator",
+            "content": "Elementor 3.16.5; features: e_dom_optimization, e_optimized_assets_loading, e_optimized_css_loading, additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-swap"
+        },
+        {
+            "name": "msapplication-TileImage",
+            "content": "https://i0.wp.com/www.prc.ac.th/wp-content/uploads/2022/01/cropped-prc_logo_2014-Color1-1.png?fit=270%2C266&ssl=1"
+        }
+    ],
+    "javascript_libraries": [
+        "jQuery",
+        "jQuery",
+        "jQuery",
+        "jQuery",
+        "jQuery"
+    ],
+    "frameworks": [],
+    "headers": {
+        "Date": "Wed, 02 Oct 2024 20:18:32 GMT",
+        "Content-Type": "text/html; charset=UTF-8",
+        "Transfer-Encoding": "chunked",
+        "Connection": "keep-alive",
+        "Cache-Control": "max-age=3, must-revalidate",
+        "last-modified": "Wed, 02 Oct 2024 19:51:03 GMT",
+        "vary": "Accept-Encoding, Cookie",
+        "x-powered-by": "PHP/7.4.27",
+        "CF-Cache-Status": "DYNAMIC",
+        "Report-To": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=duUr6oQshMSLYCFX2Y6z9mXo5ZHC2QCseWGkzXyXuJJh%2B6%2F6H5wiWiNqL4IxVvILHNPi9n662DWBOsb%2BvLGBLP5bVBDlAzgYql0W9r9Jt4n1J3uD8Y3BkqMHmoVcvClfox7k%2BwBiROhhnzFL\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+        "NEL": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
+        "Speculation-Rules": "\"/cdn-cgi/speculation\"",
+        "Server": "cloudflare",
+        "CF-RAY": "8cc761d838b437db-BKK",
+        "Content-Encoding": "gzip"
+    },
+    "vulnerabilities": [
+        "Missing security header: Content-Security-Policy",
+        "Missing security header: Strict-Transport-Security",
+        "Missing security header: X-Content-Type-Options",
+        "Missing security header: X-Frame-Options",
+        "Missing security header: X-XSS-Protection"
+    ],
+    "asset_load_sequence": [
+        {
+            "type": "stylesheet",
+            "href": "https://c0.wp.com/c/6.6.2/wp-includes/css/dist/block-library/style.css"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://c0.wp.com/c/6.6.2/wp-includes/js/mediaelement/mediaelementplayer-legacy.min.css"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://c0.wp.com/c/6.6.2/wp-includes/js/mediaelement/wp-mediaelement.css"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/themes/hello-elementor/style.css?ver=3.1.1"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/themes/hello-elementor/theme.css?ver=3.1.1"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/themes/hello-elementor/header-footer.css?ver=3.1.1"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/plugins/elementor/assets/css/frontend.css?ver=3.16.5"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/uploads/elementor/css/post-6.css?ver=1696987724"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.css?ver=5.23.0"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/plugins/elementor/assets/lib/swiper/css/swiper.css?ver=5.3.6"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/plugins/elementor-pro/assets/css/frontend.css?ver=3.16.2"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/uploads/elementor/css/global.css?ver=1696987724"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/uploads/elementor/css/post-82.css?ver=1727838396"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/uploads/elementor/css/post-60.css?ver=1696987725"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/uploads/elementor/css/post-109.css?ver=1721723881"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://fonts.googleapis.com/css?family=Kanit%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&display=swap&ver=6.6.2"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.css?ver=5.15.3"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.css?ver=5.15.3"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.css?ver=5.15.3"
+        },
+        {
+            "type": "stylesheet",
+            "href": "https://www.prc.ac.th/wp-content/plugins/elementor/assets/lib/animations/animations.min.css?ver=3.16.5"
+        },
+        {
+            "type": "script",
+            "src": "/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+        },
+        {
+            "type": "script",
+            "src": "https://www.prc.ac.th/wp-content/themes/hello-elementor/assets/js/hello-frontend.js?ver=3.1.1"
+        },
+        {
+            "type": "script",
+            "src": "https://stats.wp.com/e-202440.js"
+        },
+        {
+            "type": "script",
+            "src": "https://c0.wp.com/c/6.6.2/wp-includes/js/jquery/jquery.js"
+        },
+        {
+            "type": "script",
+            "src": "https://c0.wp.com/c/6.6.2/wp-includes/js/jquery/jquery-migrate.js"
+        },
+        {
+            "type": "script",
+            "src": "https://www.prc.ac.th/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.js?ver=1.0.1"
+        },
+        {
+            "type": "script",
+            "src": "https://c0.wp.com/c/6.6.2/wp-includes/js/imagesloaded.min.js"
+        },
+        {
+            "type": "script",
+            "src": "https://www.prc.ac.th/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.js?ver=3.16.2"
+        },
+        {
+            "type": "script",
+            "src": "https://www.prc.ac.th/wp-content/plugins/elementor/assets/js/webpack.runtime.js?ver=3.16.5"
+        },
+        {
+            "type": "script",
+            "src": "https://www.prc.ac.th/wp-content/plugins/elementor/assets/js/frontend-modules.js?ver=3.16.5"
+        },
+        {
+            "type": "script",
+            "src": "https://c0.wp.com/c/6.6.2/wp-includes/js/dist/hooks.js"
+        },
+        {
+            "type": "script",
+            "src": "https://c0.wp.com/c/6.6.2/wp-includes/js/dist/i18n.js"
+        },
+        {
+            "type": "script",
+            "src": "https://www.prc.ac.th/wp-content/plugins/elementor-pro/assets/js/frontend.js?ver=3.16.2"
+        },
+        {
+            "type": "script",
+            "src": "https://www.prc.ac.th/wp-content/plugins/elementor/assets/lib/waypoints/waypoints.js?ver=4.0.2"
+        },
+        {
+            "type": "script",
+            "src": "https://c0.wp.com/c/6.6.2/wp-includes/js/jquery/ui/core.js"
+        },
+        {
+            "type": "script",
+            "src": "https://www.prc.ac.th/wp-content/plugins/elementor/assets/js/frontend.js?ver=3.16.5"
+        },
+        {
+            "type": "script",
+            "src": "https://www.prc.ac.th/wp-content/plugins/elementor-pro/assets/js/elements-handlers.js?ver=3.16.2"
+        },
+        {
+            "type": "script",
+            "src": "https://www.prc.ac.th/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.js?ver=3.16.2"
+        }
+    ]
+}

@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            overflow: hidden;
+            overflow: auto; /* Enable scrolling */
             display: flex; 
             justify-content: center; 
             align-items: center;
@@ -19,48 +19,77 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #333;
             text-align: center;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+        }
+
+        .container {
+            max-width: 90%;
+            max-height: 90vh; /* Limit the height to make space for scrolling */
+            overflow-y: auto; /* Enable vertical scrolling if content overflows */
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Darker background for better readability */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         h1 {
             font-family: 'Segoe UI', sans-serif;
             color: #ffffff;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin-bottom: 15px;
+            font-size: 2rem; /* Smaller heading size */
         }
 
         p {
-            font-size: 20px;
-            color: #333;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            max-width: 700px;
-            margin: 20px auto;
-            font-family: 'Courier New', Courier, monospace; 
+            font-size: 1rem; /* Smaller text size */
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
             white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
         a {
             display: inline-block;
-            background-color: #004aac;
+            background-color: #0066cc;
             color: white;
-            padding: 12px 20px;
+            padding: 10px 15px;
             border-radius: 8px;
             text-decoration: none;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
+            font-size: 1rem; /* Smaller font size */
+            transition: transform 0.3s ease, background-color 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
         }
 
         a:hover {
-            background-color: #0066cc;
+            background-color: #005bb5;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+
+            a {
+                font-size: 0.9rem;
+                padding: 8px 12px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Braille Translation</h1>
-    <p>{{ braille_text }}</p>
-    <a href="{% url 'upload_file' %}">Translate another document</a>
+    <div class="container">
+        <h1>Braille Translation</h1>
+        <p>{{ braille_text }}</p>
+        <a href="{% url 'upload_file' %}">Translate another document</a>
+    </div>
 </body>
 </html>
