@@ -1,5 +1,5 @@
 body {
-    background-image: url('https://firebasestorage.googleapis.com/v0/b/brailleproject-8091a.appspot.com/o/Frontend%2FChooselesson%2FBG.svg?alt=media&token=b7cdb17a-3b4e-46ba-8e03-7e7148ac69c4');
+    background-image: url('../../../media/uploads/Slide_16_9_-_119.png');
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -73,8 +73,8 @@ body {
     margin-left: 25px;
 }
 
-.home, .next {
-    background-color: #57B2F1;
+.home, .next ,.sound {
+    background-color: transparent;
     border-radius: 50%;
     border-style: solid;
     border-width: 0px;
@@ -82,24 +82,11 @@ body {
     margin-left: 5vw;
     margin-right: 5vw;
     size: fixed;
-
-
 }
-.sound {
-    background-color: #2070AD;
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 15px;
-    border-color: #81AECD;
-    size: fixed;
 
-}
-.sound img{
-    width: 10vw;
-    display: block;
-}
 
 .under {
+    margin-top: -5em;
     margin-left: 1vw;
 }
 
