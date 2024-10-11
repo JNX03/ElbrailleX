@@ -14,7 +14,6 @@ import base64
 import cv2
 import subprocess
 
-# setting
 filepath = "C:/Users/jeans/Desktop/LastEbail/EIBraille-Webapplication-1.1/eibraille"
 logging.basicConfig(level=logging.DEBUG)
 
@@ -24,13 +23,11 @@ def save_audio(request):
         audio_file = request.FILES['audio']
         username = request.POST.get('username', 'anonymous')
 
-        # Define the path to save the audio file
         parent_dir = Path(__file__).resolve().parent.parent
         sound_dir = parent_dir / 'sound'
         sound_dir.mkdir(parents=True, exist_ok=True)
         file_path = sound_dir / f'{username}-audio.wav'
 
-        # Save the file to the specified location
         with open(file_path, 'wb+') as f:
             for chunk in audio_file.chunks():
                 f.write(chunk)
@@ -39,10 +36,8 @@ def save_audio(request):
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
-# Path to Firebase credentials JSON file
 firebase_key_path = os.path.join(settings.BASE_DIR, 'authentication', 'brailleproject-8091a-firebase-adminsdk-fnggw-c19e1f8fde.json')
 
-# Initialize Firebase app if not already initialized
 cred = credentials.Certificate(firebase_key_path)
 
 if not firebase_admin._apps:
