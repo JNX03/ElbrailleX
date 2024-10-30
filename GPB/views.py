@@ -6,15 +6,15 @@ import requests
 import requests
 
 def generate_story(personality_type, story_name):
-    endpoint = 'https://api.opentyphoon.ai/v1/chat/completions'
+    endpoint = 'https://chat.jnx03.xyz/api'
     headers = {
-        "Authorization": "Bearer sk-n4UjVOYwESm8qbroneGMuD8TZKFgb1XZ5uv2lZuEqSxs1FqH"
+        "Authorization": "Bearer Jnx03Authen-21sadfsdl;joi23oinoisjeoi2joijLKsnb3ilBDJVNl3isl2"
     }
     prompt = f"แต่งเนื้อหากาเรียนรู้สำหรับ เกี่ยวกับ : {story_name} ของคนตาบอดเป็นภาษาไทย" #personal Type: {personality_type}\n
     settingpromp = f"คุณเป็นครูสอนคนตาบอดชื่อ BrailleGpt ผู้พัฒนาคือ Ebraille โดย Jnx03 โดยตอบตามหลักคู่มือมาตรฐานการใช้อักษรเบรลล์ในประเทศไทยและสอนให้เหมาะสมพร้อมยกตัวอย่างกับเด็กและถูกต้องโดยสอนให้ครบในข้อความเดียว หากเป็นตำถามอื่นนอกเหนือจากเรื่องภาษาเบลล์ก็ตอบตามความเป็นจริง มีความถูกต้อง"
 
     response = requests.post(endpoint, json={
-        "model": "typhoon-v1.5-instruct",
+        "model": "Jxxn03z-V1-70B",
         "messages": [ 
             {
                 "role": "system",

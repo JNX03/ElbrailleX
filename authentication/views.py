@@ -174,17 +174,14 @@ def save_image(request):
             if not image_data:
                 return JsonResponse({'error': 'No image data provided'}, status=400)
             
-            # Decode the base64 image data
             header, encoded = image_data.split(',', 1)
             image_data = base64.b64decode(encoded)
             
-            # Define the path to save the image file
             parent_dir = Path(__file__).resolve().parent.parent
             image_dir = parent_dir / 'tempfb'
             image_dir.mkdir(parents=True, exist_ok=True)
             file_path = image_dir / f'{int(time.time())}-image.png'
             
-            # Save the image file
             with open(file_path, 'wb') as f:
                 f.write(image_data)
             
