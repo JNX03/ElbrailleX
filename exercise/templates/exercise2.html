@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
             <button id="mute-button" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">Mute</button>
             
-            <span class="Letter" tabindex="0" onmouseover="prepareAudio('นี้คือตัว {{ letter }} ลองกดปุ่มไมค์เพื่อออกเสียง พร้อมสัมพัสปุ่ม Cell')" onfocus="prepareAudio('นี้คือตัว {{ letter }} ลองกดปุ่มไมค์เพื่อออกเสียง พร้อมสัมพัสปุ่ม Cell')">{{ letter }}</span>
+            <span class="Letter" tabindex="0" onmouseover="prepareAudio('This is letter {{ letter }} Try open microphone and speak while holding Cell')">{{ letter }}</span>
             <div class="braille">
                 <div class="toprow">            
                     <div class="B1" style="background-color: {{ braille_pattern.0|yesno:'black,#D19C1A' }};"></div>

@@ -96,26 +96,26 @@ def normalize_answer(answer):
     return answer[0]
 
 #def alphacharold(request):
-    if request.method == 'POST' and 'audio_file' in request.FILES:
-        audio_file = request.FILES['audio_file']
-        media_root = settings.MEDIA_ROOT
-        if not os.path.exists(media_root):
-            os.makedirs(media_root)
-        audio_path = os.path.join(media_root, 'recording.wav')
-        with open(audio_path, 'wb+') as destination:
-            for chunk in audio_file.chunks():
-                destination.write(chunk)
-        answer = predict_alphabet(audio_path)
-        correct_answer = chr(ord('a') + request.session.get('n_index', 1) - 1)
-        correct = (answer == correct_answer)
-        os.remove(audio_path)
-        response = {
-            "message": "Correct!" if correct else "Incorrect",
-            "[DEBUG]": correct_answer,
-            "recognized_text": answer,
-        }
-        return JsonResponse(response)
-    return JsonResponse({"message": "Invalid request"}, status=400)
+    # if request.method == 'POST' and 'audio_file' in request.FILES:
+    #     audio_file = request.FILES['audio_file']
+    #     media_root = settings.MEDIA_ROOT
+    #     if not os.path.exists(media_root):
+    #         os.makedirs(media_root)
+    #     audio_path = os.path.join(media_root, 'recording.wav')
+    #     with open(audio_path, 'wb+') as destination:
+    #         for chunk in audio_file.chunks():
+    #             destination.write(chunk)
+    #     answer = predict_alphabet(audio_path)
+    #     correct_answer = chr(ord('a') + request.session.get('n_index', 1) - 1)
+    #     correct = (answer == correct_answer)
+    #     os.remove(audio_path)
+    #     response = {
+    #         "message": "Correct!" if correct else "Incorrect",
+    #         "[DEBUG]": correct_answer,
+    #         "recognized_text": answer,
+    #     }
+    #     return JsonResponse(response)
+    # return JsonResponse({"message": "Invalid request"}, status=400)
 
 def text_to_speech(request):
     text = request.GET.get('text', '')

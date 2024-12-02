@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .forms import DocumentForm
 from .models import Document
 from .braille_translation import translate_to_braille
