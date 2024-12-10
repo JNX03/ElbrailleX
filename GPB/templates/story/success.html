@@ -1,4 +1,3 @@
-{% load braille_filters %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,35 +30,17 @@
             overflow-y: auto;
         }
 
-        h1 {
+        h1, h2 {
             font-size: 2em;
             color: #333333;
             text-align: center;
             margin-bottom: 20px;
         }
 
-        h2 {
-            font-size: 1.5em;
-            color: #333333;
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        p {
+        p, li {
             font-size: 1.2em;
             color: #444444;
             line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            font-size: 1.2em;
-            color: #444444;
             margin-bottom: 20px;
         }
 
@@ -82,26 +63,77 @@
         button:hover {
             background-color: #3366cc;
         }
+
+        #response {
+            font-size: 1.5em;
+            color: #333;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Generated Story</h1>
-        <!--<p><strong>Personality Type:</strong> {{ personality_type }}</p>-->
         <p><strong>Story Name:</strong> {{ story_name }}</p>
         <p><strong>Story:</strong> {{ story }}</p>
         <p><strong>Story (Braille):</strong> {{ braille_story }}</p>
 
-        <!--<h2>All Submitted Stories</h2>
-        <ul>
-            {% for story in stories %}
-            <li>
-                <strong>Type:</strong> {{ story.personality_type }} <br>
-                <strong>Story:</strong> {{ story.story }} <br>
-                <strong>Braille:</strong> {{ story.story|braille }}-->
-            </li>
-            {% endfor %}
-        </ul>
+        <button id="askBtn" tabindex="0">Ask a Question</button>
+        <div id="response"></div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const askBtn = document.getElementById('askBtn');
+        const responseDiv = document.getElementById('response');
+
+        // Speech Recognition Setup
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+
+        // Handle Question Button Click
+        askBtn.addEventListener('click', () => {
+            recognition.start();
+        });
+
+        recognition.addEventListener('result', async (event) => {
+            const question = event.results[0][0].transcript;
+            responseDiv.innerHTML = `<p><strong>You asked:</strong> ${question}</p><p><strong>Thinking...</strong></p>`;
+
+            try {
+                const resp = await axios.post('https://api.opentyphoon.ai/v1/chat/completions', {
+                    "model": "typhoon-v1.5-instruct",
+                    "max_tokens": 512,
+                    "messages": [{ "role": "user", "content": question }],
+                    "temperature": 0.4,
+                    "top_p": 0.9,
+                    "top_k": 0,
+                    "repetition_penalty": 1.05,
+                    "min_p": 0.05
+                }, {
+                    headers: {
+                        Authorization: 'Bearer sk-nUWj9lVH2GgaCjCJktrrIuvvHDZXbYM5kknJx0iwXOKJCLjz'
+                    }
+                });
+
+                const answer = resp.data.choices[0].message.content;
+
+                responseDiv.innerHTML = `<p><strong>You asked:</strong> ${question}</p>
+                                         <p><strong>Answer:</strong> ${answer}</p>`;
+
+                // Text-to-Speech
+                const utterance = new SpeechSynthesisUtterance(answer);
+                speechSynthesis.speak(utterance);
+            } catch (error) {
+                responseDiv.innerHTML = `<p><strong>Error:</strong> Unable to fetch a response.</p>`;
+            }
+        });
+
+        recognition.addEventListener('error', () => {
+            responseDiv.innerHTML = `<p><strong>Error:</strong> Speech recognition failed. Try again.</p>`;
+        });
+    </script>
 </body>
 </html>
