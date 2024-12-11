@@ -14,7 +14,7 @@
         <iframe id="background-music" width="0" height="0" src="https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
     <button id="mute-button" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">Mute</button>
-    <audio id="tts-audio" style="display:none;"></audio>
+<audio onended="document.getElementById('Effect').style.display = 'none';" id="tts-audio" style="display:none;"></audio>
     
         <!-- <button class="PageClamp" style="width: 255vw;"> 
         
@@ -381,6 +381,8 @@
                     const audio = document.getElementById('tts-audio');
                     audio.src = URL.createObjectURL(blob);
                     audio.play();
+                    document.getElementById("Effect").style.display = "block";
+
                 })
                 .catch(error => {
                     console.error('Error:', error);

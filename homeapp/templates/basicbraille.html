@@ -158,7 +158,7 @@
             <a href="{% url 'homescreen' %}"><button class="Home"> <img draggable="false" src="../../../media/uploads/Group_294.png" alt="Bookmark"></button></a>
         </div>
         </center> 
-        <audio id="tts-audio" style="display:none;"></audio>
+    <audio onended="document.getElementById('Effect').style.display = 'none';" id="tts-audio" style="display:none;"></audio>
         <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
 
         <script>
@@ -200,6 +200,8 @@
                         const audio = document.getElementById('tts-audio');
                         audio.src = URL.createObjectURL(blob);
                         audio.play();
+                    document.getElementById("Effect").style.display = "block";
+
                     })
                     .catch(error => {
                         console.error('Error:', error);

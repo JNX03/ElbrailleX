@@ -143,6 +143,8 @@
                 const audio = document.getElementById('tts-audio');
                 audio.src = URL.createObjectURL(blob);
                 audio.play();
+                    document.getElementById("Effect").style.display = "block";
+
             })
             .catch(error => {
                 console.error('Error:', error);

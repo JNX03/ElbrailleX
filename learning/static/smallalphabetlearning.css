@@ -72,9 +72,17 @@ body {
     right: 1vw;
     margin-left: 25px;
 }
+/* .home, .next ,.sound {
+    background-color: transparent;
+    border-style: solid;
+    border-width: 0px;
+    margin-top: 20vh; 
+    margin-left: 5vw;
+    margin-right: 5vw;
+} */
 
 .home, .next {
-    background-color: #57B2F1;
+    background-color: transparent;
     border-radius: 50%;
     border-style: solid;
     border-width: 0px;
@@ -86,11 +94,11 @@ body {
 
 }
 .sound {
-    background-color: #2070AD;
+    background-color: transparent;
     border-radius: 50%;
     border-style: solid;
     border-width: 15px;
-    border-color: #81AECD;
+    border-color: transparent;
     size: fixed;
 
 }
@@ -106,8 +114,6 @@ body {
 button:hover {
     transition: transform 0.3s ease;
     transform: translateY(-10%);
-    background-color: gray;
-
 }
 
 button:active {
@@ -123,4 +129,15 @@ button:active {
 
 .home img , .next img{
     margin: 0.5vw;
+}
+
+.Effect {
+    background-color: transparent;
+    border-style: solid;
+    width: 22em;
+    border-width: 0px;
+    margin-top: -15em; 
+    margin-right: 1em;
+    z-index: -1;
+    display: block;
 }

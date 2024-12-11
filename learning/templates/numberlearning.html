@@ -52,6 +52,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     const audio = document.getElementById('tts-audio');
                     audio.src = URL.createObjectURL(blob);
                     audio.play();
+                    document.getElementById("Effect").style.display = "block";
+
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -106,12 +108,14 @@ document.addEventListener("DOMContentLoaded", function() {
     <center>
         <div class="under">
             <a href="{% url 'basicbraille' %}"><button name="Home" class="home" onmouseover="prepareAudio('กลับหน้าเริ่มบทเรียน')" onfocus="prepareAudio('กลับหน้าเริ่มบทเรียน')" tabindex="0"><img src="../../../media/uploads/Group_294.png" alt="Home"></button></a>
-            <button name="Sound" class="sound" onmouseover="prepareAudio('ปุ่ม ไมค์')" onfocus="prepareAudio(' ปุ่ม ไมค์')" tabindex="0"><img src="../../media/uploads/Group_287.png" alt="Sound"></button>
+            <button name="Sound" class="sound" onclick="startRecording()" onmouseover="prepareAudio('Sound')" onfocus="prepareAudio('Sound')" tabindex="0"><img src="../../media/uploads/Group_287.png" alt="Sound"></button>
             <a href="{% url 'smallalphabetlearning' 2 %}"><button name="next" class="next" onmouseover="prepareAudio('ตัวต่อไป')" onfocus="prepareAudio('ตัวต่อไป')" tabindex="0"><img src="../../../media/uploads/Forward_b.png" alt="Next"></button></a>
         </div>
+        <img style="display: none;" src="../../media/uploads/ai.gif" class="Effect" alt="Effect" id="Effect">
+
     </center>
 
-    <audio id="tts-audio" style="display:none;"></audio>
+<audio onended="document.getElementById('Effect').style.display = 'none';" id="tts-audio" style="display:none;"></audio>
     <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
 </body>
 </html>

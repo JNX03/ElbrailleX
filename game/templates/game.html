@@ -152,7 +152,7 @@
         </button></a>
     </div>
     <button id="mute-button">Mute</button>
-    <audio id="tts-audio" style="display:none;"></audio>
+<audio onended="document.getElementById('Effect').style.display = 'none';" id="tts-audio" style="display:none;"></audio>
     <div class="letter-display-box">
         <h1 class="letter-display" tabindex="0" onclick="handleLetterClick()">{{ letter }}</h1>
     </div>

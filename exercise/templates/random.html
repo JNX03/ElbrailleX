@@ -32,6 +32,8 @@
                     const audio = document.getElementById('tts-audio');
                     audio.src = URL.createObjectURL(blob);
                     audio.play();
+                    document.getElementById("Effect").style.display = "block";
+
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -114,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
         </center>
     </div>
-    <audio id="tts-audio" style="display:none;"></audio>
+<audio onended="document.getElementById('Effect').style.display = 'none';" id="tts-audio" style="display:none;"></audio>
     <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
 </body>
 </html>
