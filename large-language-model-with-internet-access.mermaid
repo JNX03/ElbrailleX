@@ -1,0 +1,12 @@
+graph TD
+    A["User"] -->|"1. Query"| B["LLM Interface"]
+    B -->|"2. Process Query"| C["Large Language Model"]
+    C -->|"3. Identify Information Needs"| D["Internet Access Module"]
+    D -->|"4. Web Search"| E["Internet"]
+    E -->|"5. Search Results"| D
+    D -->|"6. Relevant Information"| C
+    C -->|"7. Generate Response"| B
+    B -->|"8. Final Answer"| A
+    
+    F["Knowledge Base"] -->|"Background Knowledge"| C
+    G["Real-time Data Sources"] -->|"Current Information"| D

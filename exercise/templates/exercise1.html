@@ -17,9 +17,16 @@
         let mediaRecorder;
         let audioChunks = [];
         let audioEnabled = false;
+        let incorrectAttempts = 0;
+        let lastInteractionTime = Date.now();
+        let keyPressCount = 0;
+
+        // Timeout for idle user (30 seconds)
+        const IDLE_TIMEOUT = 30000;  // 30 seconds
 
         document.addEventListener('DOMContentLoaded', (event) => {
             document.getElementById('enable-audio').click();
+            startIdleTimer();
         });
 
         function enableAudio() {
@@ -117,16 +124,20 @@
                     const audio = document.getElementById('tts-audio');
                     audio.src = URL.createObjectURL(blob);
                     audio.play();
+                    document.getElementById("Effect").style.display = "block";
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         }
+
+        // Detect keypresses and provide feedback
         document.addEventListener('keypress', function(event) {
             if (event.key.toLowerCase() === 't') {
+                resetIdleTimer();  // Reset idle timer on interaction
                 Swal.fire({
                     title: 'Correct!',
-                    text: 'You are correct , Good Job',
+                    text: 'You are correct, Good Job',
                     icon: 'success',
                     confirmButtonText: 'OK',
                     backdrop: true,
@@ -134,6 +145,8 @@
                     allowEscapeKey: false
                 });
             } else if (event.key.toLowerCase() === 'f') {
+                incorrectAttempts++;
+                resetIdleTimer();  // Reset idle timer on interaction
                 Swal.fire({
                     title: 'Incorrect',
                     text: 'Wrong please try again.',
@@ -143,29 +156,43 @@
                     allowOutsideClick: false,
                     allowEscapeKey: false
                 });
+
+                if (incorrectAttempts >= 3) {
+                    prepareAudio("ลองใหม่ช้าๆนะ ไม่ต้องรีบร้อนใจเย็นๆคะ");
+                }
+                if (incorrectAttempts >= 5) {
+                    prepareAudio("ใจเย็นกว่านี้คะ ลองฟังดีๆ แล้วลองตอบใหม่นะคะ");
+                }
             }
+
+            keyPressCount++;
+            setTimeout(() => {
+                if (keyPressCount > 10) {
+                    prepareAudio("ใจเย็นๆก่อนนะคะ ไม่กดปุ่มเล่นนะคะ");
+                }
+                if (keyPressCount > 20) { 
+                    prepareAudio("อย่ากดเล่นนะคะ");
+                }
+                if (keyPressCount > 20) { 
+                    prepareAudio("บอกว่าอย่ากดเล่น ฟังรู้เรื่องไหมคะ");
+                }
+                keyPressCount = 0;
+            }, 2000);
         });
-        let isMuted = false;
 
-document.addEventListener("DOMContentLoaded", function() {
-    var iframe = document.getElementById("background-music");
-    var muteButton = document.getElementById("mute-button");
-
-    iframe.src = iframe.src;
-
-    muteButton.addEventListener("click", function() {
-        if (isMuted) {
-            // Unmute the video
-            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}`;
-            muteButton.textContent = 'Mute';
-        } else {
-            // Mute the video
-            iframe.src = `https://www.youtube.com/embed/{{ YOUTUBE_VIDEO_ID }}?autoplay=1&loop=1&playlist={{ YOUTUBE_VIDEO_ID }}&mute=1`;
-            muteButton.textContent = 'Unmute';
+        // Start idle timer
+        function startIdleTimer() {
+            setInterval(() => {
+                if (Date.now() - lastInteractionTime > IDLE_TIMEOUT) {
+                    prepareAudio("นักเรียนคะ ยังอยู่ไหมคะ มาตั้งใจเรียนก่อนนะยังไม่จบเลยนะ");
+                }
+            }, IDLE_TIMEOUT);
         }
-        isMuted = !isMuted;
-    });
-});
+
+        // Reset idle timer
+        function resetIdleTimer() {
+            lastInteractionTime = Date.now();
+        }
     </script>
 </head>
 <body>
@@ -176,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
             <button id="mute-button" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">Mute</button>
             
-            <span class="Letter" tabindex="0" onmouseover="prepareAudio('This is letter "A" Try open microphone and speak while holding Cell')" onfocus="prepareAudio('This is letter "A" Try open microphone and speak while holding Cell')">a</span>
+            <span class="Letter" tabindex="0" onmouseover="prepareAudio('This is letter A Try open microphone and speak while holding Cell')" onfocus="prepareAudio('This is letter A Try open microphone and speak while holding Cell')">a</span>
             <div class="braille">
                 <div class="toprow">            
                     <div class="B1" style="background-color: {{ braille_pattern.0|yesno:'D19C1A,#black' }};"></div>
@@ -199,9 +226,10 @@ document.addEventListener("DOMContentLoaded", function() {
             <button name="Sound" class="sound" onclick="startRecording()" onmouseover="prepareAudio('Sound')" onfocus="prepareAudio('Sound')" tabindex="0"><img src="../../media/uploads/Group_287.png" alt="Sound"></button>
             <a href="{% url 'practice' 2 %}"><button name="next" class="next" onmouseover="prepareAudio('Next')" onfocus="prepareAudio('Next')" tabindex="0"><img src="../../../media/uploads/Forward_b.png" alt="Next"></button></a>
         </div>
+        <img style="display: none;" src="../../media/uploads/ai.gif" class="Effect" alt="Effect" id="Effect">
     </center>
 
-    <audio id="tts-audio" style="display:none;"></audio>
+    <audio onended="document.getElementById('Effect').style.display = 'none';" id="tts-audio" style="display:none;"></audio>
     <button id="enable-audio" style="display:none;" onclick="enableAudio()">Enable Audio</button>
 </body>
 </html>

@@ -75,15 +75,22 @@ body {
 
 .home, .next ,.sound {
     background-color: transparent;
-    border-radius: 50%;
     border-style: solid;
     border-width: 0px;
     margin-top: 20vh; 
     margin-left: 5vw;
     margin-right: 5vw;
-    size: fixed;
 }
 
+.Effect {
+    background-color: transparent;
+    border-style: solid;
+    border-width: 0px;
+    margin-top: -20em; 
+    margin-left: -1em;
+    z-index: -1;
+    display: none;
+}
 
 .under {
     margin-top: -5em;
@@ -93,8 +100,6 @@ body {
 button:hover {
     transition: transform 0.3s ease;
     transform: translateY(-10%);
-    background-color: gray;
-
 }
 
 button:active {
@@ -110,4 +115,5 @@ button:active {
 
 .home img , .next img{
     margin: 0.5vw;
+    z-index: -1;        response = self._make_request(
 }
