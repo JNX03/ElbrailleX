@@ -48,7 +48,7 @@
             color: #004aac;
         }
 
-        button {
+        button, input[type="text"] {
             background-color: #004aac;
             color: white;
             padding: 12px 25px;
@@ -58,10 +58,19 @@
             width: 100%;
             font-size: 1.2em;
             margin-top: 20px;
+            text-align: center;
         }
 
-        button:hover {
+        button:hover, input[type="text"]:hover {
             background-color: #3366cc;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #333;
         }
 
         #response {
@@ -78,31 +87,48 @@
         <p id="story"><strong>Story:</strong> {{ story }}</p>
         <p><strong>Story (Braille):</strong> {{ braille_story }}</p>
 
-        <button id="askBtn" tabindex="0">Ask a Question</button>
+        <input type="text" id="userInput" placeholder="Type your question...">
+        <button id="askBtn" tabindex="0">Ask a Question (Speech-to-Text)</button>
+        <button id="submitBtn" tabindex="1">Submit Question</button>
+        
         <div id="response"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         const askBtn = document.getElementById('askBtn');
+        const submitBtn = document.getElementById('submitBtn');
         const responseDiv = document.getElementById('response');
         const storyText = document.getElementById('story').textContent.replace('Story:', '').trim();
+        const userInput = document.getElementById('userInput');
 
-        // Speech Recognition Setup
+        // Speech Recognition Setup in Thai
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
-        recognition.lang = 'en-US';
+        recognition.lang = 'th-TH';
         recognition.interimResults = false;
 
-        // Handle Question Button Click
+        // Handle Speech-to-Text Button Click
         askBtn.addEventListener('click', () => {
             recognition.start();
         });
 
         recognition.addEventListener('result', async (event) => {
             const question = event.results[0][0].transcript;
-            responseDiv.innerHTML = `<p><strong>You asked:</strong> ${question}</p><p><strong>Thinking...</strong></p>`;
+            await handleQuestion(question);
+        });
 
+        submitBtn.addEventListener('click', async () => {
+            const question = userInput.value.trim();
+            if (question) {
+                await handleQuestion(question);
+            } else {
+                responseDiv.innerHTML = `<p><strong>Error:</strong> Please enter a valid question.</p>`;
+            }
+        });
+
+        async function handleQuestion(question) {
+            responseDiv.innerHTML = `<p><strong>You asked:</strong> ${question}</p><p><strong>Thinking...</strong></p>`;
             try {
                 const resp = await axios.post('https://api.opentyphoon.ai/v1/chat/completions', {
                     "model": "typhoon-v1.5-instruct",
@@ -129,11 +155,12 @@
 
                 // Text-to-Speech
                 const utterance = new SpeechSynthesisUtterance(answer);
+                utterance.lang = 'th-TH';
                 speechSynthesis.speak(utterance);
             } catch (error) {
                 responseDiv.innerHTML = `<p><strong>Error:</strong> Unable to fetch a response.</p>`;
             }
-        });
+        }
 
         recognition.addEventListener('error', () => {
             responseDiv.innerHTML = `<p><strong>Error:</strong> Speech recognition failed. Try again.</p>`;
